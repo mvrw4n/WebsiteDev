@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Connexion - Wizzy{% endblock %}
+
+{% block extra_css %}
+<style>
+    .login-container {
+        padding: 6rem 0;
+    }
+    
+    .login-card {
+        background-color: var(--dark-secondary);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px var(--shadow-strong);
+        border: none;
+    }
+    
+    .login-header {
+        background-color: var(--dark-tertiary);
+        padding: 1.5rem;
+        border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .login-header h4 {
+        color: var(--white);
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+    
+    .login-body {
+        padding: 2rem;
+    }
+    
+    .form-label {
+        color: var(--white);
+        font-weight: 500;
+    }
+    
+    .form-control {
+        background-color: var(--dark-tertiary);
+        border: 1px solid var(--light-gray);
+        color: var(--white);
+        padding: 0.8rem 1rem;
+    }
+    
+    .form-control:focus {
+        background-color: var(--dark-tertiary);
+        border-color: var(--primary);
+        color: var(--white);
+        box-shadow: 0 0 0 0.25rem rgba(255, 107, 0, 0.25);
+    }
+    
+    .login-btn {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        color: white;
+        padding: 0.8rem;
+        font-weight: 600;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .login-btn:hover {
+        background-color: var(--primary-hover);
+        border-color: var(--primary-hover);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(255, 107, 0, 0.3);
+    }
+    
+    .forgot-password {
+        color: var(--primary);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .forgot-password:hover {
+        color: var(--primary-light);
+        text-decoration: underline;
+    }
+    
+    .register-link {
+        margin-top: 1.5rem;
+        text-align: center;
+        color: var(--light);
+    }
+    
+    .register-link a {
+        color: var(--primary);
+        font-weight: 500;
+        text-decoration: none;
+    }
+    
+    .register-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container login-container">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="login-card">
+                <div class="login-header">
+                    <h4>Connexion</h4>
+                </div>
+                <div class="login-body">
+                    <form id="login-form">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Mot de passe</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn login-btn w-100">Se connecter</button>
+                    </form>
+                    <div class="mt-3 text-center">
+                        <a href="{% url 'auth:password_reset' %}" class="forgot-password">Mot de passe oublié ?</a>
+                    </div>
+                    <div class="register-link">
+                        Pas encore inscrit ? <a href="{% url 'auth:register' %}">Créer un compte</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Login specific JS -->
+<script src="/static/js/auth/login.js"></script>
+{% endblock %} 

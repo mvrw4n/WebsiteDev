@@ -1,0 +1,28 @@
+{% load i18n %}
+
+{% block subject %}
+{% blocktrans %}Account activation on {{ site_name }}{% endblocktrans %}
+{% endblock subject %}
+
+{% block text_body %}
+{% blocktrans %}You're receiving this email because you need to finish activation process on {{ site_name }}.{% endblocktrans %}
+
+{% trans "Your activation code is:" %} {{ user.activation_code }}
+
+{% trans "Please go to the following page and enter your activation code:" %}
+{{ protocol }}://{{ domain }}/auth/activate/
+
+{% trans "Thanks for using our site!" %}
+
+{% blocktrans %}The {{ site_name }} team{% endblocktrans %}
+{% endblock text_body %}
+
+{% block html_body %}
+<h1>{% trans "Account Activation" %}</h1>
+<p>{% blocktrans %}You're receiving this email because you need to finish activation process on {{ site_name }}.{% endblocktrans %}</p>
+<p>{% trans "Your activation code is:" %} <strong>{{ user.activation_code }}</strong></p>
+<p>{% trans "Please go to the following page and enter your activation code:" %}</p>
+<p><a href="{{ protocol }}://{{ domain }}/auth/activate/">{{ protocol }}://{{ domain }}/auth/activate/</a></p>
+<p>{% trans "Thanks for using our site!" %}</p>
+<p>{% blocktrans %}The {{ site_name }} team{% endblocktrans %}</p>
+{% endblock html_body %} 

@@ -1,0 +1,1534 @@
+{% extends "base.html" %}
+{% load static %}
+{% load core_extras %}
+
+{% block title %}Dashboard - Wizzy{% endblock %}
+
+{% block extra_css %}
+<style>
+/* Dashboard Dark Theme */
+.dashboard-container {
+    background-color: var(--dark);
+    min-height: calc(100vh - 70px);
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    background-color: var(--dark-secondary);
+    border-radius: 12px;
+    box-shadow: 0 5px 20px var(--shadow);
+    padding: 1.5rem;
+    height: calc(100vh - 110px);
+    position: sticky;
+    top: 2rem;
+}
+
+.nav-pills .nav-link {
+    color: var(--light);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+}
+
+.nav-pills .nav-link:hover {
+    background-color: var(--dark-tertiary);
+    color: var(--white);
+    transform: translateX(5px);
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--primary);
+    color: white;
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
+}
+
+.nav-pills .nav-link i {
+    margin-right: 10px;
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+}
+
+/* Main Content Area */
+.main-content {
+    padding: 0.5rem;
+}
+
+.tab-pane {
+    background-color: var(--dark-secondary);
+    border-radius: 12px;
+    box-shadow: 0 5px 20px var(--shadow);
+    padding: 1.5rem;
+    min-height: 300px;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.dashboard-header h2 {
+    color: var(--white);
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+    font-size: 1.8rem;
+}
+
+.dashboard-header p {
+    color: var(--gray);
+    margin-bottom: 0;
+}
+
+/* Dashboard Cards */
+.card {
+    background-color: var(--dark-tertiary);
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 5px 15px var(--shadow);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--shadow-strong);
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid var(--light-gray);
+    color: var(--white);
+    font-weight: 600;
+    padding: 1rem 1.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+    color: var(--text);
+}
+
+.card-title {
+    color: var(--white);
+    font-weight: 600;
+}
+
+/* Form Controls */
+.form-control, .form-select {
+    background-color: var(--dark);
+    border: 1px solid var(--light-gray);
+    color: var(--white);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: var(--dark);
+    border-color: var(--primary);
+    color: var(--white);
+    box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.25);
+}
+
+.form-label {
+    color: var(--white);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-text {
+    color: var(--gray);
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: white;
+    font-weight: 500;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+}
+
+.btn-outline-primary {
+    border-color: var(--primary);
+    color: var(--primary);
+    font-weight: 500;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 0, 0.3);
+}
+
+/* Tables */
+.table {
+    color: var(--light);
+}
+
+.table thead th {
+    background-color: var(--dark);
+    border-color: var(--light-gray);
+    color: var(--white);
+    font-weight: 600;
+    padding: 1rem;
+}
+
+.table td {
+    padding: 1rem;
+    border-color: var(--light-gray);
+    vertical-align: middle;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(37, 99, 235, 0.05);
+}
+
+/* Alerts */
+.alert {
+    border-radius: 8px;
+    border: none;
+    padding: 1rem 1.5rem;
+}
+
+.alert-info {
+    background-color: rgba(37, 99, 235, 0.1);
+    color: var(--light);
+    border-left: 4px solid var(--primary-hover);
+}
+
+/* Custom Styling */
+.input-group-text {
+    background-color: var(--dark-tertiary);
+    border-color: var(--light-gray);
+    color: var(--light);
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+    .sidebar {
+        height: auto;
+        position: relative;
+        margin-bottom: 2rem;
+    }
+}
+
+/* Chat styles - Custom bubble with AI face */
+.chat-bubble {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.chat-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px var(--shadow-strong);
+    z-index: 1000;
+    transition: all 0.3s ease;
+    border: 3px solid white;
+    overflow: hidden;
+}
+
+.chat-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 16px var(--shadow-strong);
+}
+
+.chat-window {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 400px;
+    height: 600px;
+    background: var(--dark-secondary);
+    border-radius: 15px;
+    box-shadow: 0 5px 25px var(--shadow-strong);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+.chat-window.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+}
+
+.chat-header {
+    padding: 15px;
+    background: var(--primary);
+    color: white;
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-title {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+
+
+
+.chat-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.chat-actions button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.chat-actions button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: var(--dark);
+}
+
+.message {
+    padding: 10px 15px;
+    border-radius: 15px;
+    max-width: 80%;
+    line-height: 1.4;
+    position: relative;
+    word-wrap: break-word;
+    box-shadow: 0 1px 2px var(--shadow);
+}
+
+.user-message {
+    align-self: flex-end;
+    background-color: var(--primary);
+    color: white;
+    border-bottom-right-radius: 5px;
+}
+
+.ai-message {
+    align-self: flex-start;
+    background-color: var(--dark-tertiary);
+    color: var(--light);
+    border-bottom-left-radius: 5px;
+    position: relative;
+    padding-left: 45px !important;
+}
+
+.ai-avatar {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.system-message {
+    align-self: center;
+    background-color: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+    font-style: italic;
+    font-size: 0.9em;
+    max-width: 90%;
+    border-radius: 10px;
+}
+
+.message-timestamp {
+    font-size: 0.7em;
+    color: var(--gray);
+    margin-top: 5px;
+    text-align: right;
+}
+
+.chat-input-container {
+    background-color: var(--dark-tertiary);
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 0 0 15px 15px;
+    border-top: 1px solid var(--light-gray);
+}
+
+.chat-input {
+    flex: 1;
+    border: 1px solid var(--light-gray);
+    background-color: var(--dark);
+    color: var(--light);
+    border-radius: 20px;
+    padding: 10px 15px;
+    outline: none;
+    resize: none;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.chat-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(255, 107, 0, 0.2);
+}
+
+.send-button {
+    background-color: var(--primary);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.send-button:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.typing-indicator {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+}
+
+.typing-indicator span {
+    width: 8px;
+    height: 8px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    display: inline-block;
+    animation: typing 1.4s infinite ease-in-out both;
+}
+
+.typing-indicator span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+}
+
+.session-separator {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid var(--light-gray);
+    margin: 15px 0;
+    position: relative;
+}
+
+.session-separator span {
+    background: var(--dark);
+    padding: 0 10px;
+    position: relative;
+    top: 10px;
+    font-size: 0.8em;
+    color: var(--gray);
+}
+
+#loadMoreBtn {
+    align-self: center;
+    background: none;
+    border: 1px solid var(--light-gray);
+    color: var(--gray);
+    padding: 6px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#loadMoreBtn:hover {
+    background-color: var(--dark-tertiary);
+    color: var(--light);
+}
+
+/* Modal customization */
+.modal-content {
+    background-color: var(--dark-secondary);
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px var(--shadow-strong);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.modal-footer {
+    border-top: 1px solid var(--light-gray);
+}
+
+.btn-close-white {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Structure de scraping styles for dark theme */
+.scraping-structure {
+    background-color: var(--dark-tertiary);
+    border-radius: 12px;
+    border-left: 4px solid var(--primary);
+    padding: 1.25rem;
+    margin: 1rem 0;
+    box-shadow: 0 4px 10px var(--shadow);
+    color: var(--light);
+}
+
+.scraping-structure .structure-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.scraping-structure .structure-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--white);
+    margin-bottom: 0.25rem;
+}
+
+.scraping-structure .structure-type {
+    display: inline-block;
+    background-color: var(--primary);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    color: white;
+    font-size: 0.8rem;
+    margin-right: 0.5rem;
+}
+
+.scraping-structure .structure-strategy {
+    font-style: italic;
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.scraping-structure .structure-meta {
+    color: var(--gray);
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+}
+
+.scraping-structure .structure-description {
+    background-color: var(--dark);
+    border-left: 3px solid var(--primary);
+    padding: 0.75rem;
+    margin: 0.75rem 0;
+    border-radius: 4px;
+    font-style: italic;
+}
+
+.scraping-structure .structure-fields {
+    background-color: var(--dark);
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.scraping-structure .field-item {
+    display: flex;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--light-gray);
+}
+
+.scraping-structure .field-name {
+    font-weight: 600;
+    width: 40%;
+    color: var(--white);
+}
+
+.scraping-structure .field-type {
+    width: 30%;
+    color: var(--gray);
+}
+
+.scraping-structure .field-required {
+    width: 20%;
+    color: #e74c3c;
+    font-weight: 500;
+}
+
+/* Improved chat styles for AI messages with avatars */
+.ai-message {
+    position: relative;
+    padding-left: 45px !important;
+}
+
+.ai-avatar {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.chat-title {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid dashboard-container">
+    <div class="row">
+        <div class="col-md-3 col-lg-2 sidebar">
+            <h5 class="mb-4">Wizzy Dashboard</h5>
+            <div class="nav flex-column nav-pills" id="dashboard-tabs" role="tablist" data-user-role="{{ user.profile.role|default:'free' }}">
+                <a class="nav-link active" id="overview-tab-btn" data-tab="overview" href="#overview">
+                    <i class="fas fa-home"></i> Vue d'ensemble
+                </a>
+                <a class="nav-link" id="structures-tab-btn" data-tab="structures" href="#structures">
+                    <i class="fas fa-sitemap"></i> Structures
+                </a>
+                <a class="nav-link" id="scraping-tab-btn" data-tab="scraping" href="#scraping">
+                    <i class="fas fa-robot"></i> Scraping
+                </a>
+                <a class="nav-link" id="leads-tab-btn" data-tab="leads" href="#leads">
+                    <i class="fas fa-user-check"></i> Leads & Enrichissements
+                </a>
+                <a class="nav-link" id="billing-tab-btn" data-tab="billing" href="#billing">
+                    <i class="fas fa-credit-card"></i> Abonnements
+                </a>
+                <a class="nav-link" id="account-tab-btn" data-tab="account" href="#account">
+                    <i class="fas fa-user-cog"></i> Mon Compte
+                </a>
+            </div>
+        </div>
+        <div class="col-md-9 col-lg-10 main-content">
+            <!-- Alerts Container -->
+            <div id="alertsContainer"></div>
+            
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Overview Tab -->
+                <div class="tab-pane fade show active" id="overview-tab" role="tabpanel">
+                    <div class="dashboard-header">
+                        <h2>Vue d'ensemble</h2>
+                        <p class="text-muted">Vos statistiques d'utilisation et votre abonnement</p>
+                    </div>
+
+                    <div id="usageStats">
+                        <!-- Usage stats will be loaded here -->
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Chargement...</span>
+                            </div>
+                            <p class="mt-2">Chargement des statistiques...</p>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Utilisation des leads</h5>
+                                </div>
+                                <div class="card-body text-center">
+                                    <canvas id="usageChart" style="height: 200px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Leads par jour (7 derniers jours)</h5>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="weeklyLeadsChart" style="height: 200px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div id="subscriptionInfo">
+                                <!-- Subscription info will be loaded here -->
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="availablePlans">
+                                <!-- Available plans will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Structures Tab -->
+                <div class="tab-pane fade" id="structures-tab" role="tabpanel">
+                    <div class="dashboard-header">
+                        <h2>Structures de scraping</h2>
+                        <p class="text-muted">Gérez vos structures de scraping détectées par l'IA</p>
+                    </div>
+                    
+                    <div id="scrapingStructures">
+                        <!-- Structures will be loaded here -->
+                        <div class="text-center py-5">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Chargement...</span>
+                            </div>
+                            <p class="mt-2">Chargement des structures...</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Scraping Tab -->
+                <div class="tab-pane fade" id="scraping-tab" role="tabpanel">
+                    <div class="dashboard-header">
+                        <h2>Tâches de scraping</h2>
+                        <p class="text-muted">Gérez et surveillez vos tâches de scraping</p>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Tâches en cours</h5>
+                                    <button class="btn btn-primary btn-sm" id="createNewTaskBtn">
+                                        <i class="fas fa-plus"></i> Nouvelle tâche
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div id="activeScrapingTasks">
+                                        <!-- Active tasks will be loaded here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Historique des tâches</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="scrapingTasksHistory">
+                                        <!-- Tasks history will be loaded here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leads Tab -->
+                <div class="tab-pane fade" id="leads-tab" role="tabpanel">
+                    <div class="dashboard-header">
+                        <h2>Leads & Enrichissements de profil</h2>
+                        <p class="text-muted">Consultez vos leads collectés et enrichissez votre profil pour améliorer les suggestions</p>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Mes Leads Collectés</h5>
+                                    <div>
+                                        <select id="leadsFilterSelect" class="form-select form-select-sm" style="width: auto; display: inline-block;">
+                                            <option value="all">Tous les leads</option>
+                                            <option value="recent">Récents (7 jours)</option>
+                                            <option value="processed">Traités</option>
+                                            <option value="unprocessed">Non traités</option>
+                                        </select>
+                                        <button id="refreshLeadsBtn" class="btn btn-sm btn-outline-primary ms-2">
+                                            <i class="fas fa-sync-alt"></i> Actualiser
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div id="userLeadsContainer">
+                                        <div class="text-center py-4" id="noLeadsMessage">
+                                            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                                            <p class="lead">Aucun lead trouvé. Lancez une tâche de scraping pour collecter des leads.</p>
+                                        </div>
+                                        
+                                        <div id="leadsTable" class="table-responsive d-none">
+                                            <table class="table table-striped table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nom/Entreprise</th>
+                                                        <th>Contact</th>
+                                                        <th>Source</th>
+                                                        <th>Date</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="leadsTableBody">
+                                                    <!-- Les leads seront chargés ici dynamiquement -->
+                                                </tbody>
+                                            </table>
+                                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                                <div class="lead-stats">
+                                                    <span id="totalLeadsCount">0</span> leads affichés
+                                                </div>
+                                                <div class="pagination-controls">
+                                                    <button id="prevPageBtn" class="btn btn-sm btn-outline-secondary me-2" disabled>
+                                                        <i class="fas fa-chevron-left"></i> Précédent
+                                                    </button>
+                                                    <span id="paginationInfo">Page 1 sur 1</span>
+                                                    <button id="nextPageBtn" class="btn btn-sm btn-outline-secondary ms-2" disabled>
+                                                        Suivant <i class="fas fa-chevron-right"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Mon profil d'industrie</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i> Ces informations aident notre IA à mieux comprendre votre business afin d'offrir des recommandations précises et adaptées.
+                                    </div>
+                                    
+                                    <form id="industryForm">
+                                        <h5 class="border-bottom pb-2 mb-3">1. Coordonnées</h5>
+                                        <div class="mb-3">
+                                            <label for="company_name" class="form-label">Nom de l'entreprise</label>
+                                            <input type="text" class="form-control" id="company_name" name="company_name" placeholder="Votre entreprise">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="contact_name" class="form-label">Nom du contact</label>
+                                            <input type="text" class="form-control" id="contact_name" name="contact_name" placeholder="Prénom et nom">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="contact_email" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="contact_email" name="contact_email" placeholder="email@exemple.com">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="contact_phone" class="form-label">Téléphone</label>
+                                            <input type="tel" class="form-control" id="contact_phone" name="contact_phone" placeholder="+33 6 12 34 56 78">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="website" class="form-label">Site web</label>
+                                            <input type="url" class="form-control" id="website" name="website" placeholder="https://www.exemple.com">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="industry" class="form-label">Secteur d'activité</label>
+                                            <select class="form-select" id="industry" name="industry">
+                                                <option value="">Sélectionnez votre secteur...</option>
+                                                <option value="real_estate">Immobilier</option>
+                                                <option value="ecommerce">E-commerce</option>
+                                                <option value="finance">Finance</option>
+                                                <option value="healthcare">Santé</option>
+                                                <option value="education">Éducation</option>
+                                                <option value="tech">Technologies</option>
+                                                <option value="tourism">Tourisme</option>
+                                                <option value="food">Restauration</option>
+                                                <option value="beauty">Beauté & Bien-être</option>
+                                                <option value="manufacturing">Industrie</option>
+                                                <option value="marketing">Marketing & Communication</option>
+                                                <option value="consulting">Conseil</option>
+                                                <option value="other">Autre</option>
+                                            </select>
+                                        </div>
+
+                                        <h5 class="border-bottom pb-2 mb-3 mt-4">2. Informations sur le produit / service</h5>
+                                        
+                                        <div class="mb-3">
+                                            <label for="product_type" class="form-label">Type de produit / service</label>
+                                            <select class="form-select" id="product_type" name="product_type">
+                                                <option value="">Sélectionnez...</option>
+                                                <option value="saas">SaaS</option>
+                                                <option value="ecommerce">E-commerce</option>
+                                                <option value="online_training">Formation en ligne</option>
+                                                <option value="b2b_service">Service B2B</option>
+                                                <option value="b2c_service">Service B2C</option>
+                                                <option value="marketplace">Place de marché</option>
+                                                <option value="physical_product">Produit physique</option>
+                                                <option value="other">Autre</option>
+                                            </select>
+                                            <small class="form-text text-muted">Exemple : SaaS, e-commerce, formation en ligne, service B2B, etc.</small>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="average_price" class="form-label">Prix moyen par produit/service</label>
+                                            <input type="text" class="form-control" id="average_price" name="average_price" placeholder="Ex: abonnement mensuel de 50€, produit unique à 200€...">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="average_margin" class="form-label">Marge moyenne (optionnel)</label>
+                                            <input type="text" class="form-control" id="average_margin" name="average_margin" placeholder="Ex: 30%, 50€ par vente...">
+                                            <small class="form-text text-muted">Cette information est utile pour des stratégies de rentabilité</small>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="business_model" class="form-label">Modèle économique</label>
+                                            <select class="form-select" id="business_model" name="business_model">
+                                                <option value="">Sélectionnez...</option>
+                                                <option value="subscription">Abonnement</option>
+                                                <option value="one_time_payment">Paiement unique</option>
+                                                <option value="commission">Commission</option>
+                                                <option value="ad_based">Publicité</option>
+                                                <option value="freemium">Freemium</option>
+                                                <option value="service_fee">Frais de service</option>
+                                                <option value="other">Autre</option>
+                                            </select>
+                                            <small class="form-text text-muted">Exemple : abonnement, paiement unique, commission...</small>
+                                        </div>
+                                        
+                                        <div class="d-grid mt-4">
+                                            <button type="submit" class="btn btn-primary" id="saveIndustryBtn">
+                                                <i class="fas fa-save"></i> Enregistrer
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Acquisition & Objectifs</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="targetsForm">
+                                        <h5 class="border-bottom pb-2 mb-3">3. Acquisition de clients</h5>
+                                        
+                                        <div class="mb-3">
+                                            <label for="main_acquisition_channel" class="form-label">Canal d'acquisition principal</label>
+                                            <select class="form-select" id="main_acquisition_channel" name="main_acquisition_channel">
+                                                <option value="">Sélectionnez...</option>
+                                                <option value="seo">SEO</option>
+                                                <option value="sem">Publicité Google</option>
+                                                <option value="social_ads">Publicité Facebook/Instagram</option>
+                                                <option value="referral">Bouche-à-oreille</option>
+                                                <option value="partnerships">Partenariats</option>
+                                                <option value="content">Marketing de contenu</option>
+                                                <option value="email">Email marketing</option>
+                                                <option value="outbound">Prospection sortante</option>
+                                                <option value="other">Autre</option>
+                                            </select>
+                                            <small class="form-text text-muted">Ex: SEO, publicité Facebook/Google, bouche-à-oreille, partenariats, etc.</small>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="conversion_rate" class="form-label">Taux de conversion moyen (si disponible)</label>
+                                            <input type="text" class="form-control" id="conversion_rate" name="conversion_rate" placeholder="Ex: 2%, 5 ventes/100 visites...">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="ad_budget" class="form-label">Budget publicitaire mensuel (si applicable)</label>
+                                            <input type="text" class="form-control" id="ad_budget" name="ad_budget" placeholder="Ex: 500€/mois, 2000€/mois...">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="marketing_tools" class="form-label">Outils marketing utilisés</label>
+                                            <select class="form-select" id="marketing_tools" name="marketing_tools" multiple>
+                                                <option value="crm">CRM</option>
+                                                <option value="email_marketing">Emailing</option>
+                                                <option value="retargeting">Retargeting</option>
+                                                <option value="analytics">Analytics</option>
+                                                <option value="social_media">Réseaux sociaux</option>
+                                                <option value="seo_tools">Outils SEO</option>
+                                                <option value="ad_platforms">Plateformes publicitaires</option>
+                                                <option value="marketing_automation">Automatisation marketing</option>
+                                            </select>
+                                            <small class="form-text text-muted">Maintenez Ctrl (ou Cmd) pour sélectionner plusieurs outils</small>
+                                        </div>
+                                        
+                                        <h5 class="border-bottom pb-2 mb-3 mt-4">4. Objectifs sur les 3 prochains mois</h5>
+                                        
+                                        <div class="mb-3">
+                                            <label for="revenue_target" class="form-label">Chiffre d'affaires cible</label>
+                                            <input type="text" class="form-control" id="revenue_target" name="revenue_target" placeholder="Ex: 10K€, augmentation de 20%...">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="new_customers_target" class="form-label">Nombre de nouveaux clients visés</label>
+                                            <input type="text" class="form-control" id="new_customers_target" name="new_customers_target" placeholder="Ex: 50 nouveaux clients, +30%...">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="planned_optimizations" class="form-label">Optimisations prévues</label>
+                                            <select class="form-select" id="planned_optimizations" name="planned_optimizations" multiple>
+                                                <option value="seo_improvement">Améliorer le SEO</option>
+                                                <option value="ad_optimization">Optimiser les publicités</option>
+                                                <option value="increase_average_cart">Augmenter le panier moyen</option>
+                                                <option value="improve_conversion">Améliorer le taux de conversion</option>
+                                                <option value="new_products">Lancer de nouveaux produits</option>
+                                                <option value="streamline_process">Optimiser les processus</option>
+                                                <option value="customer_retention">Fidéliser les clients</option>
+                                                <option value="lead_generation">Génération de leads</option>
+                                            </select>
+                                            <small class="form-text text-muted">Maintenez Ctrl (ou Cmd) pour sélectionner plusieurs optimisations</small>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="specific_needs" class="form-label">Besoins spécifiques</label>
+                                            <textarea class="form-control" id="specific_needs" name="specific_needs" rows="3" placeholder="Décrivez tout besoin particulier ou souhait d'accompagnement"></textarea>
+                                        </div>
+                                        
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-primary" id="saveTargetsBtn">
+                                                <i class="fas fa-save"></i> Enregistrer
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Statistiques de leads</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="leadsStatsContainer">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="card border-0 shadow-sm mb-3">
+                                                    <div class="card-body">
+                                                        <h6 class="text-muted mb-3">Répartition des leads</h6>
+                                                        <div style="height: 250px;">
+                                                            <canvas id="leadsDistributionChart"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="card border-0 shadow-sm mb-3">
+                                                    <div class="card-body">
+                                                        <h6 class="text-muted mb-3">Collecte par période</h6>
+                                                        <div style="height: 250px;">
+                                                            <canvas id="leadsTimelineChart"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row mt-3">
+                                            <div class="col-md-4">
+                                                <div class="card border-0 bg-light">
+                                                    <div class="card-body text-center">
+                                                        <h3 class="text-primary mb-2 fw-bold" id="totalLeadsCollected">0</h3>
+                                                        <p class="text-muted">Leads collectés au total</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="card border-0 bg-light">
+                                                    <div class="card-body text-center">
+                                                        <h3 class="text-success mb-2 fw-bold" id="uniqueLeadsCount">0</h3>
+                                                        <p class="text-muted">Leads uniques</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="card border-0 bg-light">
+                                                    <div class="card-body text-center">
+                                                        <h3 class="text-info mb-2 fw-bold" id="lastWeekLeadsCount">0</h3>
+                                                        <p class="text-muted">Leads cette semaine</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Billing Tab -->
+                <div class="tab-pane fade" id="billing-tab" role="tabpanel">
+                    <div class="dashboard-header">
+                        <h2>Abonnements et facturation</h2>
+                        <p class="text-muted">Gérez votre abonnement et achetez des leads supplémentaires</p>
+                    </div>
+            
+                    <div id="currentSubscription">
+                        <!-- Current subscription info will be loaded here -->
+                    </div>
+                    
+                    <div id="subscriptionPlans">
+                        <!-- Subscription plans will be loaded here -->
+                    </div>
+                    
+                    <div id="additionalLeadsSection">
+                        <!-- Additional leads section will be loaded here -->
+                    </div>
+                    
+                    <!-- Payment form (hidden by default) -->
+                    <div id="paymentFormContainer" class="card mb-4 d-none">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Paiement</h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="payment-form">
+                                {% if stripe_public_key %}
+                                <input type="hidden" id="stripe-key" value="{{ stripe_public_key }}">
+                                {% endif %}
+                                
+                                <div class="mb-3">
+                                    <label for="card-element" class="form-label">Carte de crédit</label>
+                                    <div id="card-element" class="form-control"></div>
+                                    <div id="card-errors" class="text-danger mt-2"></div>
+                                </div>
+                                
+                                <button id="payment-button" type="button" class="btn btn-primary">
+                                    Payer et s'abonner
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Tab -->
+                <div class="tab-pane fade" id="account-tab" role="tabpanel">
+                    <div class="dashboard-header">
+                        <h2>Mon Compte</h2>
+                        <p class="text-muted">Gérez vos paramètres de compte et de sécurité</p>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Informations du compte</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="loading-spinner text-center py-3 d-none">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Chargement...</span>
+                                        </div>
+                                        <p class="mt-2 text-muted">Chargement des informations...</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="userEmail" value="{{ user.email }}" readonly>
+                                            <button class="btn btn-outline-secondary" type="button" id="changeEmailBtn">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Date d'inscription</label>
+                                        <input type="text" class="form-control" id="registrationDate" value="{{ user.date_joined|date:'d/m/Y' }}" readonly>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label class="form-label">Rôle</label>
+                                        <input type="text" class="form-control" id="userRole" value="{{ user.profile.role|default:'free'|upper }}" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Changement de mot de passe</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="passwordResetForm">
+                                        <div class="mb-3">
+                                            <label for="currentPassword" class="form-label">Mot de passe actuel</label>
+                                            <input type="password" class="form-control" id="currentPassword" name="current_password" required>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="newPassword" class="form-label">Nouveau mot de passe</label>
+                                            <input type="password" class="form-control" id="newPassword" name="new_password" required>
+                                            <div class="form-text">Le mot de passe doit contenir au moins 8 caractères, incluant des lettres, des chiffres et des caractères spéciaux.</div>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="confirmPassword" class="form-label">Confirmer le nouveau mot de passe</label>
+                                            <input type="password" class="form-control" id="confirmPassword" name="confirm_password" required>
+                                        </div>
+                                        
+                                        <button type="submit" class="btn btn-primary" id="changePasswordBtn">
+                                            <i class="fas fa-key me-2"></i> Changer le mot de passe
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Sessions actives</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <div class="me-3">
+                                                <i class="fas fa-desktop fa-2x text-primary"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h6 class="mb-0">Session actuelle</h6>
+                                                <small class="text-muted">Navigateur: {{ request.META.HTTP_USER_AGENT|default:'Inconnu' }}</small>
+                                            </div>
+                                            <div>
+                                                <span class="badge bg-success">Active</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="button" class="btn btn-warning w-100 mb-3" id="logoutAllBtn">
+                                        <i class="fas fa-sign-out-alt me-2"></i> Déconnecter toutes les sessions
+                                    </button>
+                                    
+                                    <button type="button" class="btn btn-outline-secondary w-100" id="logoutCurrentBtn">
+                                        <i class="fas fa-power-off me-2"></i> Déconnecter cette session
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="card mb-4 border-danger">
+                                <div class="card-header bg-danger text-white">
+                                    <h5 class="card-title mb-0">Zone dangereuse</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">Attention, la suppression de votre compte est irréversible. Toutes vos données personnelles, structures et leads seront définitivement perdus.</p>
+                                    
+                                    <button type="button" class="btn btn-outline-danger w-100" id="deleteAccountBtn" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                                        <i class="fas fa-trash-alt me-2"></i> Supprimer mon compte
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chat components -->
+<div class="chat-bubble">
+    <div class="chat-button" id="chatButton">
+        <img src="{% static 'img/wizzyface.png' %}" alt="Wizzy Assistant" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+    </div>
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <div class="chat-title">
+                <img src="{% static 'img/wizzyface.png' %}" alt="Wizzy" class="chat-title-avatar" style="width: 36px; height: 36px; border-radius: 50%; margin-right: 10px; border: 2px solid white;">
+                Wizzy Assistant
+            </div>
+            <div class="chat-actions">
+                <button id="clearChat" title="Clear chat">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+                <button id="closeChat" title="Close chat">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message ai-message">
+                <div class="ai-avatar">
+                    <img src="{% static 'img/wizzyface.png' %}" alt="Wizzy" style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--light-gray);">
+                </div>
+                Bonjour ! Je suis l'assistant Wizzy. Comment puis-je vous aider aujourd'hui ?
+            </div>
+        </div>
+        <div class="chat-input-container">
+            <textarea class="chat-input" id="userInput" placeholder="Tapez votre message ici..." rows="1"></textarea>
+            <button class="send-button" id="sendButton">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Account Modal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteAccountModalLabel">Confirmation de suppression</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Êtes-vous certain de vouloir supprimer définitivement votre compte ? Cette action est <strong>irréversible</strong>.</p>
+                <p>Pour confirmer, veuillez saisir votre mot de passe :</p>
+                <div class="mb-3">
+                    <input type="password" class="form-control" id="deleteAccountPassword" placeholder="Votre mot de passe" required>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="confirmDeleteCheck" required>
+                    <label class="form-check-label" for="confirmDeleteCheck">
+                        Je comprends que cette action est irréversible et que toutes mes données seront perdues.
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteAccountBtn" disabled>
+                    <i class="fas fa-trash-alt me-2"></i> Supprimer définitivement
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Chart.js for data visualization -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Stripe JS for payments -->
+<script src="https://js.stripe.com/v3/"></script>
+<!-- Common Utilities -->
+<script src="{% static 'js/common/utils.js' %}"></script>
+<!-- Dashboard Modules -->
+<script src="{% static 'js/dashboard/dashboard.js' %}"></script>
+<script src="{% static 'js/dashboard/overview.js' %}"></script>
+<script src="{% static 'js/scraping/structures.js' %}"></script>
+<script src="{% static 'js/scraping/jobs.js' %}"></script>
+<script src="{% static 'js/billing/billing.js' %}"></script>
+<script src="{% static 'js/industry/industry_enrichment.js' %}"></script>
+<script src="{% static 'js/chat/chat.js' %}"></script>
+<script src="{% static 'js/account/account.js' %}"></script>
+<!-- Initialize tooltips -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Dashboard loaded, checking authentication');
+        if (!AuthManager.isAuthenticated()) {
+            console.warn('User not authenticated, redirecting to login');
+            setTimeout(function() {
+                window.location.href = '/auth/login/?next=/dashboard/';
+            }, 1000);
+        } else {
+            console.log('User authenticated, proceeding with dashboard');
+        }
+        
+        // Stocker le chemin de l'image Wizzy dans une variable
+        const wizzyFaceImagePath = "{% static 'img/wizzyface.png' %}";
+        
+        // Initialize chat functionality 
+        const chatButton = document.getElementById('chatButton');
+        const chatWindow = document.getElementById('chatWindow');
+        const closeChat = document.getElementById('closeChat');
+        const sendButton = document.getElementById('sendButton');
+        const userInput = document.getElementById('userInput');
+        
+        if (chatButton && chatWindow) {
+            console.log('Initializing chat button functionality');
+            chatButton.addEventListener('click', function() {
+                chatWindow.classList.add('open');
+                chatButton.style.display = 'none';
+            });
+            
+            if (closeChat) {
+                closeChat.addEventListener('click', function() {
+                    chatWindow.classList.remove('open');
+                    chatButton.style.display = 'block';
+                });
+            }
+            
+            // Handle send message functionality
+            if (sendButton && userInput) {
+                sendButton.addEventListener('click', function() {
+                    const message = userInput.value.trim();
+                    if (message) {
+                        // Add user message to chat
+                        const chatMessages = document.getElementById('chatMessages');
+                        const messageElement = document.createElement('div');
+                        messageElement.className = 'message user-message';
+                        messageElement.textContent = message;
+                        chatMessages.appendChild(messageElement);
+                        
+                        // Clear input
+                        userInput.value = '';
+                        
+                        // Scroll to bottom
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                        
+                        // Simulate AI response with structure
+                        setTimeout(function() {
+                            const aiMessage = document.createElement('div');
+                            aiMessage.className = 'message ai-message';
+                            
+                            // Add AI avatar
+                            const aiAvatar = document.createElement('div');
+                            aiAvatar.className = 'ai-avatar';
+                            aiAvatar.innerHTML = '<img src="' + wizzyFaceImagePath + '" alt="Wizzy" style="width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--light-gray);">';
+                            aiMessage.appendChild(aiAvatar);
+                            
+                            if (message.toLowerCase().includes('mairie') || message.toLowerCase().includes('structure')) {
+                                // Create structure HTML manually to avoid template issues
+                                let structureHTML = `
+                                <div class="scraping-structure">
+                                    <div class="structure-header">
+                                        <div>
+                                            <div class="structure-title">
+                                                <span class="structure-type">Mairie</span>
+                                                Mairies Françaises
+                                            </div>
+                                            <div class="structure-strategy">Web Scraping - Extraction de données directement depuis les sites web des mairies</div>
+                                        </div>
+                                        <div class="structure-meta">Objectif: 10 leads/jour</div>
+                                    </div>
+                                    
+                                    <div class="structure-description">
+                                        Cette structure permettra de collecter des informations sur des mairies en utilisant la méthode de web scraping.
+                                    </div>
+                                    
+                                    <div class="structure-fields">
+                                        <h6 style="color: var(--light); margin-bottom: 10px;">Champs à collecter (8):</h6>
+                                        <div class="field-item">
+                                            <div class="field-name">nom*</div>
+                                            <div class="field-type">Texte</div>
+                                            <div class="field-required">Requis</div>
+                                        </div>
+                                        <div class="field-item">
+                                            <div class="field-name">code_postal*</div>
+                                            <div class="field-type">Texte</div>
+                                            <div class="field-required">Requis</div>
+                                        </div>
+                                        <div class="field-item">
+                                            <div class="field-name">site_web</div>
+                                            <div class="field-type">Adresse web (URL)</div>
+                                            <div class="field-required"></div>
+                                        </div>
+                                        <div class="field-item">
+                                            <div class="field-name">adresse*</div>
+                                            <div class="field-type">Texte</div>
+                                            <div class="field-required">Requis</div>
+                                        </div>
+                                        <div class="field-item">
+                                            <div class="field-name">description</div>
+                                            <div class="field-type">Texte</div>
+                                            <div class="field-required"></div>
+                                        </div>
+                                        <div class="field-item">
+                                            <div class="field-name">gazon_naturel</div>
+                                            <div class="field-type">Valeur numérique</div>
+                                            <div class="field-required"></div>
+                                        </div>
+                                        <div class="field-item">
+                                            <div class="field-name">gazon_synthetique</div>
+                                            <div class="field-type">Valeur numérique</div>
+                                            <div class="field-required"></div>
+                                        </div>
+                                        <div class="field-item">
+                                            <div class="field-name">priority_links</div>
+                                            <div class="field-type">Liste</div>
+                                            <div class="field-required"></div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                                
+                                aiMessage.innerHTML += structureHTML;
+                            } else {
+                                aiMessage.innerHTML += "Bonjour ! Comment puis-je vous aider avec vos structures de scraping aujourd'hui ?";
+                            }
+                            
+                            chatMessages.appendChild(aiMessage);
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                        }, 1000);
+                    }
+                });
+                
+                // Send message on Enter key
+                userInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendButton.click();
+                    }
+                });
+            }
+        }
+        
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+            new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>
+{% endblock %} 

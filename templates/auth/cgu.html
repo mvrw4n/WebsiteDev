@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Conditions Générales d'Utilisation - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">Conditions Générales d'Utilisation</h1>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h2>1. Acceptation des conditions</h2>
+                    <p>En utilisant ce service, vous acceptez d'être lié par les présentes conditions générales d'utilisation. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser notre service.</p>
+                    
+                    <h2>2. Description du service</h2>
+                    <p>Notre plateforme propose des services de scraping et d'analyse de données de marché. Les fonctionnalités peuvent être modifiées à tout moment sans préavis.</p>
+                    
+                    <h2>3. Compte utilisateur</h2>
+                    <p>Pour utiliser certaines fonctionnalités du service, vous devez créer un compte. Vous êtes responsable de maintenir la confidentialité de vos informations de connexion et de toutes les activités qui se produisent sous votre compte.</p>
+                    
+                    <h2>4. Utilisation acceptable</h2>
+                    <p>Vous acceptez de ne pas utiliser le service pour des fins illégales ou interdites par ces conditions. Vous ne devez pas interférer avec le bon fonctionnement du service ou tenter d'y accéder par une méthode autre que les interfaces fournies.</p>
+                    
+                    <h2>5. Propriété intellectuelle</h2>
+                    <p>Le contenu et les fonctionnalités du service sont protégés par des droits d'auteur et d'autres lois sur la propriété intellectuelle. Vous ne pouvez pas reproduire, distribuer, modifier ou créer des œuvres dérivées du contenu sans autorisation expresse.</p>
+                    
+                    <h2>6. Protection des données</h2>
+                    <p>Nous recueillons et traitons vos données conformément à notre politique de confidentialité. En utilisant notre service, vous consentez à cette collecte et ce traitement.</p>
+                    
+                    <h2>7. Limitation de responsabilité</h2>
+                    <p>Le service est fourni "tel quel" sans garantie d'aucune sorte. Nous ne serons pas responsables des dommages directs, indirects, accessoires ou consécutifs résultant de votre utilisation du service.</p>
+                    
+                    <h2>8. Modifications des conditions</h2>
+                    <p>Nous nous réservons le droit de modifier ces conditions à tout moment. Les modifications entrent en vigueur dès leur publication sur le site. Votre utilisation continue du service après de telles modifications constitue votre acceptation des nouvelles conditions.</p>
+                    
+                    <h2>9. Résiliation</h2>
+                    <p>Nous pouvons, à notre seule discrétion, suspendre ou résilier votre accès au service pour toute raison, y compris la violation de ces conditions.</p>
+                    
+                    <h2>10. Loi applicable</h2>
+                    <p>Ces conditions sont régies par les lois françaises. Tout litige relatif à ces conditions sera soumis à la juridiction exclusive des tribunaux français.</p>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <a href="{% url 'auth:register' %}" class="btn btn-primary">Retour à l'inscription</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

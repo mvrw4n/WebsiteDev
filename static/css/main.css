@@ -1,0 +1,30 @@
+/* Main CSS file - imports all other CSS files */
+
+/* Base styles */
+@import 'base.css';
+
+/* Layouts */
+@import 'layouts/dashboard.css';
+@import 'layouts/chat.css';
+
+/* Components */
+@import 'components/buttons.css';
+@import 'components/cards.css';
+@import 'components/forms.css';
+@import 'components/navigation.css';
+@import 'components/notifications.css';
+@import 'components/progress.css';
+@import 'components/tables.css';
+@import 'components/spinners.css';
+
+/* Features */
+@import 'features/chat.css';
+@import 'features/dashboard.css';
+@import 'features/scraping.css';
+@import 'features/billing.css';
+
+/* Utilities */
+@import 'utils/colors.css';
+@import 'utils/spacing.css';
+@import 'utils/typography.css';
+@import 'utils/animations.css';

@@ -1,0 +1,279 @@
+{% extends 'base.html' %}
+
+{% block title %}Wizzy - Automatisez votre prospection B2B{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="/static/css/home.css">
+<style>
+    .emoji-img {
+        width: 40px;
+        height: 40px;
+        vertical-align: middle;
+        margin-right: 8px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 hero-content animate-fadeIn">
+                <h1 class="hero-title">Arrêtez de Chasser les Leads. Laissez Wizzy les Attirer.</h1>
+                <p class="hero-subtitle">Automatisez votre prospection et générez jusqu'à 100 leads ultra-qualifiés par jour. Wizzy, votre agent d'IA intelligent, scrappe, filtre et qualifie vos prospects en continu, vous libérant un temps précieux pour conclure vos ventes.</p>
+                <p class="mb-4">Discute avec Wizzy et reçois des conseils personnalisés pour ton business !</p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="{% url 'auth:register' %}" class="btn btn-primary"><img src="/static/img/apple_emoji/large-green-circle_1f7e2.png" alt="Green Circle" class="emoji-img"> Essayez Wizzy Gratuitement (10 Leads Offerts)</a>
+                    <a href="#how-it-works" class="btn btn-secondary">Découvrir comment ça marche</a>
+                </div>
+                <div class="mt-4">
+                    <img src="/static/img/wizzy_thinking_idea.gif" alt="Wizzy pense à vos leads" class="wizzy-thinking" style="max-width: 120px;">
+                </div>
+            </div>
+            <div class="col-lg-6 animate-fadeIn delay-1 text-center">
+                <img src="/static/img/13AE0B0D-2947-4184-80E1-E8C17138FA87.png" alt="Wizzy en action" class="hero-image">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us Section - Feature Boxes -->
+<section class="why-choose-us">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-title">Les Avantages Wizzy : Plus de Leads, Moins d'Efforts.</h2>
+            <p class="lead text-center">Découvrez pourquoi plus de 500 entreprises font confiance à Wizzy pour leur prospection.</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-box">
+                <div class="feature-icon-wrapper">
+                    <img src="/static/img/apple_emoji/cross-mark_274c-2.png" alt="Check" class="emoji-img">
+                </div>
+                <h3 class="feature-title">Prospection Intelligente et Légale</h3>
+                <p class="feature-description">Scraping de données publiques en toute conformité avec les réglementations en vigueur.</p>
+            </div>
+            
+            <div class="feature-box">
+                <div class="feature-icon-wrapper">
+                    <img src="/static/img/apple_emoji/brain_1f9e0.png" alt="Intelligence" class="emoji-img">
+                </div>
+                <h3 class="feature-title">Puissance de l'IA Intégrée</h3>
+                <p class="feature-description">Filtrage avancé et scoring prédictif pour des leads à fort potentiel de conversion.</p>
+            </div>
+            
+            <div class="feature-box">
+                <div class="feature-icon-wrapper">
+                    <img src="/static/img/apple_emoji/high-voltage_26a1 (1).png" alt="Energy" class="emoji-img">
+                </div>
+                <h3 class="feature-title">Disponibilité 24/7</h3>
+                <p class="feature-description">Votre agent de prospection travaille sans relâche, même pendant votre sommeil.</p>
+            </div>
+            
+            <div class="feature-box">
+                <div class="feature-icon-wrapper">
+                    <img src="/static/img/apple_emoji/wrapped-gift_1f381.png" alt="Gift" class="emoji-img">
+                </div>
+                <h3 class="feature-title">Essayez Gratuitement</h3>
+                <p class="feature-description">Recevez 10 leads ultra-qualifiés pour tester la puissance de Wizzy sans engagement.</p>
+            </div>
+            
+            <div class="feature-box">
+                <div class="feature-icon-wrapper">
+                    <img src="/static/img/apple_emoji/rocket_1f680.png" alt="Rocket" class="emoji-img">
+                </div>
+                <h3 class="feature-title">Solution Clé en Main</h3>
+                <p class="feature-description">Ne perdez plus de temps à configurer des bots de scraping instables, qui ne fonctionnent qu'une fois sur deux. Wizzy s'occupe de tout, de façon automatisée, et avec une performance inégalée.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Social Proof Section -->
+<section class="social-proof">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Témoignages Clients</h2>
+            <div class="mb-3">
+                <img src="/static/img/wizzyface.png" alt="Wizzy character" style="max-width: 80px;">
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="testimonial-card text-center">
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">"Grâce à Wizzy, nous avons doublé notre volume de leads qualifiés en un mois. Un outil indispensable pour notre croissance !"</p>
+                                <div class="client-info justify-content-center">
+                                    <img src="/static/img/PHOTO-2025-03-30-13-35-14-removebg-preview.png" alt="Sarah Dubois" class="client-avatar">
+                                    <div>
+                                        <h5 class="mb-0">Sarah Dubois</h5>
+                                        <p class="text-muted mb-0">Responsable Marketing</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="carousel-item">
+                            <div class="testimonial-card text-center">
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">"Wizzy m'a permis de gagner un temps considérable dans ma prospection. Les leads générés sont pertinents et de qualité."</p>
+                                <div class="client-info justify-content-center">
+                                    <img src="/static/img/PHOTO-2025-03-30-20-56-30.jpg" alt="Alexandre Martin" class="client-avatar">
+                                    <div>
+                                        <h5 class="mb-0">Alexandre Martin</h5>
+                                        <p class="text-muted mb-0">Growth Hacker Freelance</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="carousel-item">
+                            <div class="testimonial-card text-center">
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="testimonial-text">"Notre agence a intégré Wizzy dans ses process et les résultats sont impressionnants. Un gain d'efficacité et une augmentation du nombre de clients."</p>
+                                <div class="client-info justify-content-center">
+                                    <img src="/static/img/BE5D09CC-FE59-43FE-8A78-AA660F27696A.png" alt="Agence Digitale" class="client-avatar">
+                                    <div>
+                                        <h5 class="mb-0">Pierre Durand</h5>
+                                        <p class="text-muted mb-0">Directeur, Agence Digitale Plus</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                    
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <h3 class="mb-4">Ils nous font confiance</h3>
+                <div class="client-logos d-flex flex-wrap justify-content-center align-items-center gap-4">
+                    <img src="/static/img/1E257D9C-B143-4CC5-8667-D4998934C7DB.png" alt="Client Logo" height="60">
+                    <img src="/static/img/620E4A9B-A815-4037-8C95-7EC616D40264.png" alt="Client Logo" height="60">
+                    <img src="/static/img/80E01775-40AC-4955-A18F-0E05D1E1925E.png" alt="Client Logo" height="60">
+                    <img src="/static/img/A722F89D-F8ED-4A76-903B-84EEF1243416.png" alt="Client Logo" height="60">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section - Timeline Style -->
+<section id="how-it-works" class="how-it-works">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Wizzy en 3 Étapes Simples : Ciblez, Scrapez, Engagez.</h2>
+            <p class="lead text-center mb-5">Un processus fluide et intuitif qui automatise entièrement votre prospection.</p>
+            <img src="/static/img/wizzy_smooth_motion.gif" alt="Wizzy en action" style="max-width: 100px; margin-bottom: 20px;">
+        </div>
+        
+        <div class="timeline">
+            <div class="timeline-container left">
+                <div class="timeline-content">
+                    <div class="timeline-icon">
+                        <img src="/static/img/apple_emoji/direct-hit_1f3af.png" alt="Target" class="emoji-img">
+                    </div>
+                    <h3>1. Ciblez Intelligemment</h3>
+                    <p>Définissez précisément votre audience : secteur d'activité, zone géographique, type d'entreprise... Wizzy comprend vos besoins pour trouver les prospects idéaux.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-container right">
+                <div class="timeline-content">
+                    <div class="timeline-icon">
+                        <img src="/static/img/apple_emoji/brain_1f9e0.png" alt="Intelligence" class="emoji-img">
+                    </div>
+                    <h3>2. Wizzy Scrappe et Qualifie</h3>
+                    <p>Notre IA avancée collecte des données publiques et les analyse pour ne vous fournir que des leads ultra-qualifiés, prêts à être contactés.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-container left">
+                <div class="timeline-content">
+                    <div class="timeline-icon">
+                        <img src="/static/img/apple_emoji/rocket_1f680.png" alt="Rocket" class="emoji-img">
+                    </div>
+                    <h3>3. Téléchargez et Convertissez</h3>
+                    <p>Exportez vos leads au format CSV ou connectez Wizzy à vos outils CRM et campagnes d'emailing pour un engagement direct et efficace.</p>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</section>
+
+<!-- Final CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2 class="cta-title">Prêt à Révolutionner Votre Prospection ?</h2>
+            <p class="cta-description">Commencez dès aujourd'hui et rejoignez les entreprises qui ont transformé leur approche commerciale grâce à Wizzy.</p>
+            <a href="{% url 'auth:register' %}" class="cta-btn">Essayer Wizzy Gratuitement</a>
+            <p class="cta-note">Aucune carte de crédit requise - 10 leads offerts</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Animation on scroll
+    document.addEventListener('DOMContentLoaded', () => {
+        const animateElements = document.querySelectorAll('.animate-fadeIn');
+        
+        function checkIfInView() {
+            animateElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.style.opacity = 1;
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', checkIfInView);
+        checkIfInView();
+    });
+</script>
+{% endblock %} 

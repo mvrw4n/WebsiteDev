@@ -1,0 +1,739 @@
+<!-- templates/scraping/task_monitor.html -->
+<div class="scraping-task-monitor mb-4">
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Moniteur de Tâche #<span id="taskId"></span></h5>
+            <div>
+                <button class="btn btn-sm btn-outline-primary me-1" id="refreshTaskBtn">
+                    <i class="fas fa-sync-alt"></i> Rafraîchir
+                </button>
+                <button class="btn btn-sm btn-outline-secondary" id="closeMonitorBtn">
+                    <i class="fas fa-times"></i> Fermer
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="task-info mb-3">
+                        <h6>Informations</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <tr>
+                                    <th>Tâche</th>
+                                    <td id="taskName"></td>
+                                </tr>
+                                <tr>
+                                    <th>Recherche</th>
+                                    <td id="taskQuery"></td>
+                                </tr>
+                                <tr>
+                                    <th>Statut</th>
+                                    <td id="taskStatus"></td>
+                                </tr>
+                                <tr>
+                                    <th>Étape en cours</th>
+                                    <td id="taskCurrentStep"></td>
+                                </tr>
+                                <tr>
+                                    <th>Démarré le</th>
+                                    <td id="taskStartTime"></td>
+                                </tr>
+                                <tr>
+                                    <th>Dernière activité</th>
+                                    <td id="taskLastActivity"></td>
+                                </tr>
+                                <tr>
+                                    <th>Durée</th>
+                                    <td id="taskDuration"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="task-stats mb-3">
+                        <h6>Statistiques</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <tr>
+                                    <th>Pages explorées</th>
+                                    <td id="taskPagesExplored"></td>
+                                </tr>
+                                <tr>
+                                    <th>Leads trouvés</th>
+                                    <td id="taskLeadsFound"></td>
+                                </tr>
+                                <tr>
+                                    <th>Leads uniques</th>
+                                    <td id="taskUniqueLeads"></td>
+                                </tr>
+                                <tr>
+                                    <th>Doublons ignorés</th>
+                                    <td id="taskDuplicateLeads"></td>
+                                </tr>
+                                <tr>
+                                    <th>Quota utilisé</th>
+                                    <td id="taskQuotaUsed"></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="task-progress mb-3">
+                <h6>Progression</h6>
+                <div class="progress">
+                    <div class="progress-bar" id="taskProgressBar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+                </div>
+            </div>
+
+            <div class="task-actions mb-3">
+                <h6>Actions</h6>
+                <button class="btn btn-warning me-2" id="pauseTaskBtn">
+                    <i class="fas fa-pause"></i> Mettre en pause
+                </button>
+                <button class="btn btn-primary me-2" id="resumeTaskBtn" style="display: none;">
+                    <i class="fas fa-play"></i> Reprendre
+                </button>
+                <button class="btn btn-danger" id="stopTaskBtn">
+                    <i class="fas fa-stop"></i> Arrêter
+                </button>
+            </div>
+
+            <div class="task-logs">
+                <h6>Journal d'activité</h6>
+                <div class="logs-container bg-light p-3 mb-3" style="height: 300px; overflow-y: auto;">
+                    <div id="taskLogs"></div>
+                </div>
+                <button class="btn btn-sm btn-outline-secondary" id="loadMoreLogsBtn">
+                    <i class="fas fa-history"></i> Charger plus d'entrées
+                </button>
+            </div>
+
+            <div class="task-results mt-4">
+                <h6>Résultats <span id="resultsCount" class="badge bg-primary">0</span></h6>
+                <div class="table-responsive">
+                    <table class="table table-sm table-hover" id="resultsTable">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Email</th>
+                                <th>Téléphone</th>
+                                <th>Source</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="taskResults">
+                            <tr>
+                                <td colspan="5" class="text-center">Aucun résultat disponible pour le moment</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn btn-primary" id="downloadResultsBtn" disabled>
+                    <i class="fas fa-download"></i> Télécharger les résultats
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Variables globales pour le moniteur de tâche
+let currentTaskId = null;
+let taskRefreshInterval = null;
+let logsOffset = 0;
+let resultsOffset = 0;
+
+// Initialiser le moniteur de tâche
+function initTaskMonitor(taskId) {
+    // Réinitialiser les variables
+    currentTaskId = taskId;
+    logsOffset = 0;
+    resultsOffset = 0;
+    
+    // Charger les détails de la tâche
+    loadTaskDetails();
+    
+    // Configurer l'actualisation automatique
+    if (taskRefreshInterval) {
+        clearInterval(taskRefreshInterval);
+    }
+    
+    // Actualiser toutes les 3 secondes
+    taskRefreshInterval = setInterval(() => {
+        loadTaskDetails(false);
+    }, 3000);
+    
+    // Configurer les boutons d'action
+    setupTaskActionButtons();
+    
+    // Afficher le moniteur
+    showTaskMonitor();
+}
+
+// Charger les détails de la tâche
+function loadTaskDetails(showLoading = true) {
+    if (!currentTaskId) return;
+    
+    if (showLoading) {
+        // Afficher un indicateur de chargement
+        document.getElementById('taskName').innerHTML = '<div class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden">Loading...</span></div>';
+    }
+    
+    fetch(`/api/tasks/${currentTaskId}/`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            updateTaskInfo(data);
+            updateTaskStats(data);
+            updateTaskProgress(data);
+            updateTaskLogs(data.logs);
+            checkTaskStatus(data.status);
+        })
+        .catch(error => {
+            console.error('Error loading task details:', error);
+            document.getElementById('taskLogs').innerHTML += `
+                <div class="log-entry text-danger">
+                    <span class="log-time">${new Date().toLocaleTimeString()}</span>
+                    <span class="log-message">Erreur lors du chargement des détails de la tâche: ${error.message}</span>
+                </div>
+            `;
+        });
+    
+    // Charger les résultats (séparément pour éviter d'alourdir la première requête)
+    if (showLoading) {
+        loadTaskResults();
+    }
+}
+
+// Mettre à jour les informations de la tâche
+function updateTaskInfo(data) {
+    document.getElementById('taskId').textContent = data.id;
+    document.getElementById('taskName').textContent = data.job.name;
+    document.getElementById('taskQuery').textContent = data.job.search_query;
+    
+    // Formater le statut avec un badge coloré
+    let statusClass = 'secondary';
+    switch (data.status) {
+        case 'initializing': statusClass = 'info'; break;
+        case 'crawling': statusClass = 'primary'; break;
+        case 'extracting': statusClass = 'primary'; break;
+        case 'processing': statusClass = 'primary'; break;
+        case 'paused': statusClass = 'warning'; break;
+        case 'completed': statusClass = 'success'; break;
+        case 'failed': statusClass = 'danger'; break;
+    }
+    
+    let statusText = '';
+    switch (data.status) {
+        case 'initializing': statusText = 'Initialisation'; break;
+        case 'crawling': statusText = 'Exploration'; break;
+        case 'extracting': statusText = 'Extraction'; break;
+        case 'processing': statusText = 'Traitement'; break;
+        case 'paused': statusText = 'En pause'; break;
+        case 'completed': statusText = 'Terminé'; break;
+        case 'failed': statusText = 'Échoué'; break;
+        default: statusText = data.status;
+    }
+    
+    document.getElementById('taskStatus').innerHTML = `<span class="badge bg-${statusClass}">${statusText}</span>`;
+    document.getElementById('taskCurrentStep').textContent = data.current_step;
+    
+    // Formater les dates
+    document.getElementById('taskStartTime').textContent = formatDate(data.start_time);
+    document.getElementById('taskLastActivity').textContent = formatDate(data.last_activity);
+    
+    // Formater la durée
+    const durationMinutes = Math.floor(data.duration / 60);
+    const durationSeconds = Math.floor(data.duration % 60);
+    document.getElementById('taskDuration').textContent = `${durationMinutes}m ${durationSeconds}s`;
+}
+
+// Mettre à jour les statistiques de la tâche
+function updateTaskStats(data) {
+    document.getElementById('taskPagesExplored').textContent = data.pages_explored;
+    document.getElementById('taskLeadsFound').textContent = data.leads_found;
+    document.getElementById('taskUniqueLeads').textContent = data.unique_leads;
+    document.getElementById('taskDuplicateLeads').textContent = data.duplicate_leads;
+    
+    // Mettre à jour le quota si disponible
+    if (data.user_quota) {
+        let quotaText = data.user_quota.unlimited 
+            ? "Illimité" 
+            : `${data.user_quota.used}/${data.user_quota.total} (${data.user_quota.remaining} restants)`;
+        document.getElementById('taskQuotaUsed').textContent = quotaText;
+    } else {
+        document.getElementById('taskQuotaUsed').textContent = "Information non disponible";
+    }
+    
+    // Mettre à jour le compteur de résultats
+    if (data.results_stats) {
+        document.getElementById('resultsCount').textContent = data.results_stats.total;
+        
+        // Activer le bouton de téléchargement si des résultats sont disponibles
+        document.getElementById('downloadResultsBtn').disabled = data.results_stats.total === 0;
+    }
+}
+
+// Mettre à jour la barre de progression
+function updateTaskProgress(data) {
+    const progress = data.progress || 0;
+    const progressBar = document.getElementById('taskProgressBar');
+    progressBar.style.width = `${progress}%`;
+    progressBar.textContent = `${progress}%`;
+    progressBar.setAttribute('aria-valuenow', progress);
+    
+    // Changer la couleur en fonction du statut
+    let progressClass = 'bg-primary';
+    if (data.status === 'completed') progressClass = 'bg-success';
+    if (data.status === 'failed') progressClass = 'bg-danger';
+    if (data.status === 'paused') progressClass = 'bg-warning';
+    
+    // Supprimer toutes les classes bg- existantes
+    progressBar.className = progressBar.className.replace(/bg-\w+/g, '');
+    progressBar.classList.add('progress-bar', progressClass);
+}
+
+// Mettre à jour les logs de la tâche
+function updateTaskLogs(logs) {
+    if (!logs || logs.length === 0) return;
+    
+    const logsContainer = document.getElementById('taskLogs');
+    
+    // Si c'est la première fois qu'on charge les logs, vider le conteneur
+    if (logsOffset === 0) {
+        logsContainer.innerHTML = '';
+    }
+    
+    // Ajouter les nouveaux logs
+    logs.reverse().forEach(log => {
+        // Vérifier si le log existe déjà
+        if (document.querySelector(`.log-entry[data-log-id="${log.id}"]`)) {
+            return;
+        }
+        
+        // Créer l'élément de log
+        const logEntry = document.createElement('div');
+        logEntry.className = 'log-entry mb-2';
+        logEntry.dataset.logId = log.id;
+        
+        // Déterminer la classe CSS en fonction du type de log
+        let logIconClass = 'text-secondary';
+        let logIcon = 'info-circle';
+        
+        switch (log.log_type) {
+            case 'info':
+                logIconClass = 'text-info';
+                logIcon = 'info-circle';
+                break;
+            case 'warning':
+                logIconClass = 'text-warning';
+                logIcon = 'exclamation-triangle';
+                break;
+            case 'error':
+                logIconClass = 'text-danger';
+                logIcon = 'exclamation-circle';
+                break;
+            case 'success':
+                logIconClass = 'text-success';
+                logIcon = 'check-circle';
+                break;
+            case 'action':
+                logIconClass = 'text-primary';
+                logIcon = 'cog';
+                break;
+        }
+        
+        // Formater l'heure
+        const logTime = new Date(log.timestamp).toLocaleTimeString();
+        
+        // Construire le contenu du log
+        logEntry.innerHTML = `
+            <div class="d-flex">
+                <div class="me-2 ${logIconClass}">
+                    <i class="fas fa-${logIcon}"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <div class="text-muted small">${logTime}</div>
+                    <div>${log.message}</div>
+                </div>
+            </div>
+        `;
+        
+        // Ajouter au conteneur
+        logsContainer.appendChild(logEntry);
+    });
+    
+    // Faire défiler vers le bas
+    const logsScrollContainer = document.querySelector('.logs-container');
+    logsScrollContainer.scrollTop = logsScrollContainer.scrollHeight;
+}
+
+// Charger plus de logs
+function loadMoreLogs() {
+    if (!currentTaskId) return;
+    
+    const logsOffset = document.querySelectorAll('.log-entry').length;
+    
+    fetch(`/api/tasks/${currentTaskId}/logs/?offset=${logsOffset}&limit=20`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            updateTaskLogs(data.logs);
+            
+            // Désactiver le bouton si plus aucun log n'est disponible
+            if (data.logs.length < 20) {
+                document.getElementById('loadMoreLogsBtn').disabled = true;
+            }
+        })
+        .catch(error => {
+            console.error('Error loading more logs:', error);
+        });
+}
+
+// Charger les résultats de la tâche
+function loadTaskResults() {
+    if (!currentTaskId) return;
+    
+    fetch(`/api/tasks/${currentTaskId}/results/?offset=${resultsOffset}&limit=10`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            updateTaskResults(data.results);
+            resultsOffset += data.results.length;
+            
+            // Mettre à jour le nombre total de résultats
+            document.getElementById('resultsCount').textContent = data.total;
+            
+            // Activer le bouton de téléchargement si des résultats sont disponibles
+            document.getElementById('downloadResultsBtn').disabled = data.total === 0;
+        })
+        .catch(error => {
+            console.error('Error loading task results:', error);
+        });
+}
+
+// Mettre à jour les résultats dans le tableau
+function updateTaskResults(results) {
+    if (!results || results.length === 0) return;
+    
+    const resultsTableBody = document.getElementById('taskResults');
+    
+    // Effacer le message "Aucun résultat" si c'est le premier chargement
+    if (resultsOffset === 0) {
+        resultsTableBody.innerHTML = '';
+    }
+    
+    // Ajouter les résultats au tableau
+    results.forEach(result => {
+        // Vérifier si le résultat existe déjà
+        if (document.querySelector(`tr[data-result-id="${result.id}"]`)) {
+            return;
+        }
+        
+        const row = document.createElement('tr');
+        row.dataset.resultId = result.id;
+        
+        // Appliquer un style différent pour les doublons
+        if (result.is_duplicate) {
+            row.classList.add('table-warning');
+        }
+        
+        // Extraire les données pertinentes
+        const leadData = result.lead_data;
+        const name = leadData.nom || leadData.name || 'N/A';
+        const email = leadData.email || 'N/A';
+        const phone = leadData.telephone || leadData.phone || 'N/A';
+        const source = result.source_url ? new URL(result.source_url).hostname : 'N/A';
+        
+        row.innerHTML = `
+            <td>${name}</td>
+            <td>${email}</td>
+            <td>${phone}</td>
+            <td>${source}</td>
+            <td>
+                <button class="btn btn-sm btn-outline-primary view-lead-btn" data-bs-toggle="tooltip" title="Voir les détails" data-lead-id="${result.id}">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </td>
+        `;
+        
+        resultsTableBody.appendChild(row);
+        
+        // Initialiser les tooltips
+        const tooltips = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltips.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+}
+
+// Vérifier l'état de la tâche et ajuster l'interface en conséquence
+function checkTaskStatus(status) {
+    const pauseBtn = document.getElementById('pauseTaskBtn');
+    const resumeBtn = document.getElementById('resumeTaskBtn');
+    const stopBtn = document.getElementById('stopTaskBtn');
+    
+    switch (status) {
+        case 'paused':
+            pauseBtn.style.display = 'none';
+            resumeBtn.style.display = 'inline-block';
+            stopBtn.disabled = false;
+            // Arrêter l'actualisation automatique
+            clearInterval(taskRefreshInterval);
+            break;
+        case 'completed':
+        case 'failed':
+            pauseBtn.style.display = 'none';
+            resumeBtn.style.display = 'none';
+            stopBtn.disabled = true;
+            // Arrêter l'actualisation automatique
+            clearInterval(taskRefreshInterval);
+            break;
+        default:
+            pauseBtn.style.display = 'inline-block';
+            resumeBtn.style.display = 'none';
+            stopBtn.disabled = false;
+    }
+}
+
+// Configurer les boutons d'action
+function setupTaskActionButtons() {
+    // Bouton de pause
+    document.getElementById('pauseTaskBtn').addEventListener('click', () => {
+        controlTask('pause');
+    });
+    
+    // Bouton de reprise
+    document.getElementById('resumeTaskBtn').addEventListener('click', () => {
+        controlTask('resume');
+    });
+    
+    // Bouton d'arrêt
+    document.getElementById('stopTaskBtn').addEventListener('click', () => {
+        if (confirm('Êtes-vous sûr de vouloir arrêter cette tâche ?')) {
+            controlTask('stop');
+        }
+    });
+    
+    // Bouton de rafraîchissement
+    document.getElementById('refreshTaskBtn').addEventListener('click', () => {
+        loadTaskDetails();
+        loadTaskResults();
+    });
+    
+    // Bouton pour charger plus de logs
+    document.getElementById('loadMoreLogsBtn').addEventListener('click', () => {
+        loadMoreLogs();
+    });
+    
+    // Bouton pour télécharger les résultats
+    document.getElementById('downloadResultsBtn').addEventListener('click', () => {
+        downloadResults();
+    });
+    
+    // Bouton pour fermer le moniteur
+    document.getElementById('closeMonitorBtn').addEventListener('click', () => {
+        closeTaskMonitor();
+    });
+}
+
+// Contrôler une tâche (pause, reprise, arrêt)
+function controlTask(action) {
+    if (!currentTaskId) return;
+    
+    fetch(`/api/tasks/${currentTaskId}/control/`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+        },
+        body: JSON.stringify({ action })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(`Task ${action} response:`, data);
+        
+        // Actualiser les détails de la tâche
+        loadTaskDetails();
+        
+        // Ajouter un message utilisateur
+        let message = '';
+        switch (action) {
+            case 'pause': message = 'Tâche mise en pause'; break;
+            case 'resume': message = 'Tâche reprise'; break;
+            case 'stop': message = 'Tâche arrêtée'; break;
+        }
+        
+        // Ajouter un log local
+        document.getElementById('taskLogs').innerHTML += `
+            <div class="log-entry mb-2">
+                <div class="d-flex">
+                    <div class="me-2 text-primary">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="text-muted small">${new Date().toLocaleTimeString()}</div>
+                        <div>${message}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Faire défiler vers le bas
+        const logsScrollContainer = document.querySelector('.logs-container');
+        logsScrollContainer.scrollTop = logsScrollContainer.scrollHeight;
+        
+        // Si on reprend la tâche, réactiver l'actualisation automatique
+        if (action === 'resume') {
+            taskRefreshInterval = setInterval(() => {
+                loadTaskDetails(false);
+            }, 3000);
+        }
+    })
+    .catch(error => {
+        console.error(`Error ${action} task:`, error);
+        alert(`Erreur lors de la tentative de ${action} la tâche: ${error.message}`);
+    });
+}
+
+// Télécharger les résultats
+function downloadResults() {
+    if (!currentTaskId) return;
+    
+    fetch(`/api/tasks/${currentTaskId}/results/?limit=1000`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Préparer les données pour le CSV
+            const results = data.results;
+            if (!results || results.length === 0) {
+                alert('Aucun résultat à télécharger');
+                return;
+            }
+            
+            // Créer un objet Blob pour le téléchargement
+            const csvContent = prepareCSV(results);
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            
+            // Créer un lien de téléchargement et le cliquer
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `resultats_tache_${currentTaskId}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        })
+        .catch(error => {
+            console.error('Error downloading results:', error);
+            alert(`Erreur lors du téléchargement des résultats: ${error.message}`);
+        });
+}
+
+// Préparer les données pour le format CSV
+function prepareCSV(results) {
+    if (!results || results.length === 0) return '';
+    
+    // Déterminer les en-têtes en fonction du premier résultat
+    const firstResult = results[0].lead_data;
+    const headers = Object.keys(firstResult);
+    
+    // Ajouter des colonnes de métadonnées
+    const metaHeaders = ['source_url', 'is_duplicate', 'created_at'];
+    const allHeaders = [...headers, ...metaHeaders];
+    
+    // Créer la ligne d'en-tête
+    let csv = allHeaders.join(',') + '\n';
+    
+    // Ajouter chaque ligne de données
+    results.forEach(result => {
+        const leadData = result.lead_data;
+        
+        // Ajouter les valeurs des champs de données du lead
+        const leadValues = headers.map(header => {
+            const value = leadData[header] || '';
+            // Échapper les virgules et les guillemets
+            return `"${String(value).replace(/"/g, '""')}"`;
+        });
+        
+        // Ajouter les valeurs des métadonnées
+        const metaValues = [
+            `"${result.source_url || ''}"`,
+            `"${result.is_duplicate ? 'Oui' : 'Non'}"`,
+            `"${formatDate(result.created_at)}"`
+        ];
+        
+        // Combiner toutes les valeurs
+        const rowValues = [...leadValues, ...metaValues];
+        csv += rowValues.join(',') + '\n';
+    });
+    
+    return csv;
+}
+
+// Formater une date
+function formatDate(dateString) {
+    if (!dateString) return '';
+    
+    const date = new Date(dateString);
+    return date.toLocaleString('fr-FR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    });
+}
+
+// Afficher le moniteur de tâche
+function showTaskMonitor() {
+    const monitorContainer = document.querySelector('.scraping-task-monitor');
+    monitorContainer.style.display = 'block';
+    
+    // Faire défiler jusqu'au moniteur
+    monitorContainer.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Fermer le moniteur de tâche
+function closeTaskMonitor() {
+    const monitorContainer = document.querySelector('.scraping-task-monitor');
+    monitorContainer.style.display = 'none';
+    
+    // Arrêter l'actualisation automatique
+    if (taskRefreshInterval) {
+        clearInterval(taskRefreshInterval);
+        taskRefreshInterval = null;
+    }
+    
+    // Réinitialiser les variables
+    currentTaskId = null;
+    logsOffset = 0;
+    resultsOffset = 0;
+}
+</script> 

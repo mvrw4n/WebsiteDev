@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Account Activation - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Account Activation</h3>
+                </div>
+                <div class="card-body">
+                    <form id="activationForm" onsubmit="handleActivation(event)">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="code" class="form-label">Activation Code</label>
+                            <input type="text" class="form-control" id="code" required 
+                                   pattern="[0-9]{6}" maxlength="6"
+                                   title="Please enter the 6-digit activation code sent to your email">
+                            <div class="form-text">
+                                Enter the 6-digit activation code sent to your email address.
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">Activate Account</button>
+                        </div>
+                    </form>
+                    <div id="successMessage" class="alert alert-success mt-3" style="display: none;">
+                        Account activated successfully! You can now <a href="{% url 'auth:login' %}">login</a>.
+                    </div>
+                    <div id="errorMessage" class="alert alert-danger mt-3" style="display: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+async function handleActivation(event) {
+    event.preventDefault();
+    
+    const email = document.getElementById('email').value;
+    const code = document.getElementById('code').value;
+    
+    try {
+        const response = await fetch('/auth/verify-code/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: email,
+                code: code
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            document.getElementById('activationForm').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('errorMessage').style.display = 'none';
+        } else {
+            document.getElementById('errorMessage').textContent = data.error || 'Activation failed. Please try again.';
+            document.getElementById('errorMessage').style.display = 'block';
+        }
+    } catch (error) {
+        document.getElementById('errorMessage').textContent = 'An error occurred. Please try again.';
+        document.getElementById('errorMessage').style.display = 'block';
+        console.error('Activation error:', error);
+    }
+}
+</script>
+{% endblock %} 

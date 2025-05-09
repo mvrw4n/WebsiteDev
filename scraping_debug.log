@@ -1,0 +1,4 @@
+2025-04-09 09:49:41,007 - scraping.tasks - INFO - Configuration du logging terminée pour scraping.tasks
+2025-04-09 09:49:41,019 - scraping.tasks - INFO - Niveau de log actuel: 10
+2025-04-09 09:49:41,024 - scraping.tasks - INFO - Handlers configurés: ['StreamHandler', 'FileHandler']
+2025-04-09 09:49:41,035 - scraping.tasks - INFO - Mode PRODUCTION avec Celery activé (simulation désactivée).

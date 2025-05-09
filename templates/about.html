@@ -1,0 +1,421 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Wizzy - À Propos{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<style>
+    .about-section {
+        padding: 6rem 0;
+        background-color: var(--dark);
+    }
+
+    .about-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .story-section {
+        background-color: var(--dark-secondary);
+        padding: 4rem 0;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px var(--shadow);
+        margin-bottom: 4rem;
+    }
+
+    .founder-image {
+        border-radius: 12px;
+        box-shadow: 0 10px 30px var(--shadow-strong);
+        max-width: 100%;
+        height: auto;
+        border: 3px solid var(--primary);
+    }
+
+    .story-content {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--light);
+    }
+
+    .story-content p {
+        margin-bottom: 1.5rem;
+    }
+
+    .story-content h2 {
+        color: var(--white);
+    }
+
+    .social-links {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .social-links h3 {
+        color: var(--white);
+        margin-bottom: 1.5rem;
+    }
+
+    .social-links-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .social-links a {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        background-color: var(--dark);
+        border-radius: 8px;
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border: 1px solid var(--primary);
+        width: 100%;
+    }
+
+    .social-links a:hover {
+        color: white;
+        background-color: var(--primary);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
+    }
+
+    .social-links a i {
+        margin-right: 0.5rem;
+        font-size: 1.2rem;
+        width: 24px;
+        text-align: center;
+    }
+
+    .faq-section {
+        background-color: var(--dark-secondary);
+        padding: 4rem 0;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px var(--shadow);
+        margin-bottom: 4rem;
+    }
+
+    .faq-item {
+        margin-bottom: 1.5rem;
+        border-bottom: 1px solid var(--light-gray);
+        padding-bottom: 1.5rem;
+    }
+
+    .faq-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .faq-question {
+        font-weight: 600;
+        font-size: 1.2rem;
+        margin-bottom: 0.75rem;
+        color: var(--white);
+    }
+
+    .faq-answer {
+        color: var(--light);
+        line-height: 1.7;
+    }
+
+    .feedback-section {
+        background-color: var(--dark-secondary);
+        padding: 4rem 0;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px var(--shadow);
+    }
+
+    .feedback-btn {
+        display: inline-block;
+        background-color: var(--primary);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+    .feedback-btn:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(248, 144, 23, 0.3);
+        color: white;
+    }
+
+    .feedback-btn i {
+        margin-right: 0.5rem;
+    }
+
+    .wizzy-gallery {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .wizzy-gallery-item {
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px var(--shadow);
+        transition: all 0.3s ease;
+        position: relative;
+        aspect-ratio: 1;
+    }
+
+    .wizzy-gallery-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px var(--shadow-strong);
+    }
+
+    .wizzy-gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.5s ease;
+    }
+
+    .wizzy-gallery-item:hover img {
+        transform: scale(1.05);
+    }
+
+    .wizzy-mascot {
+        display: flex;
+        justify-content: center;
+        margin: 2rem 0;
+    }
+
+    .wizzy-mascot img {
+        max-width: 150px;
+        border-radius: 50%;
+        border: 3px solid var(--primary);
+        box-shadow: 0 5px 15px var(--shadow-strong);
+    }
+
+    .wizzy-feature {
+        background-color: var(--dark);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-top: 1rem;
+        border-left: 4px solid var(--primary);
+        box-shadow: 0 5px 15px var(--shadow);
+        transition: all 0.3s ease;
+    }
+
+    .wizzy-feature:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px var(--shadow-strong);
+    }
+
+    .cta-section {
+        background-color: var(--dark-tertiary);
+        padding: 5rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(37, 99, 235, 0) 100%);
+        z-index: 1;
+    }
+
+    .cta-section .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .btn-primary {
+        display: inline-block;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- About Hero Section -->
+<section class="about-section">
+    <div class="container">
+        <div class="about-header">
+            <h1 class="section-title">L'Histoire Derrière Wizzy : Simplifier la Prospection pour Tous</h1>
+            <div class="wizzy-mascot">
+                <img src="{% static 'img/wizzyface.png' %}" alt="Wizzy Mascot">
+            </div>
+        </div>
+
+        <!-- Founder Story Section -->
+        <div class="story-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-4 mb-4 mb-lg-0">
+                        <img src="{% static 'img/PHOTO-2025-03-30-13-35-14-removebg-preview.png' %}" alt="Illitch Vardanyan" class="founder-image">
+                        <div class="wizzy-gallery mt-4">
+                            <div class="wizzy-gallery-item">
+                                <img src="{% static 'img/wizzywink.png' %}" alt="Wizzy Face">
+                            </div>
+                            <div class="wizzy-gallery-item">
+                                <img src="{% static 'img/BE5D09CC-FE59-43FE-8A78-AA660F27696A.png' %}" alt="Wizzy AI">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="story-content">
+                            <h2 class="mb-4">✨ Mon histoire</h2>
+                            <p>Salut ! Je suis ravi de vous accueillir ici. Moi, c'est Illitch, un jeune entrepreneur de 21 ans passionné par l'innovation et l'efficacité.</p>
+                            
+                            <p>Comme beaucoup, au début de mon parcours, j'ai lutté pour trouver des clients. J'ai passé d'innombrables heures à scroller des profils, envoyer des messages froids et jongler avec des tableurs interminables. Après des dizaines d'essais infructueux, une évidence s'est imposée : la prospection manuelle, c'est long, répétitif et souvent inefficace. Mon temps, et sans doute le vôtre aussi, valait bien mieux que ça.</p>
+                            
+                            <p>Frustré par ce manque d'outils réellement efficaces et automatisés, j'ai décidé de prendre les choses en main. C'est ainsi qu'est né Wizardlead, avec en son cœur Wizzy, notre IA magique. L'idée était simple : créer un outil 100% automatisé, capable de faire le travail fastidieux d'un commercial... mais en mieux, plus rapidement et sans jamais se fatiguer. Wizzy est conçu pour vous libérer des tâches répétitives et vous permettre de vous concentrer sur ce qui compte vraiment : construire des relations et conclure des ventes.</p>
+                            
+                            <div class="wizzy-feature">
+                                <h4 style="color: var(--white);">🧙‍♂️ Rencontrez Wizzy</h4>
+                                <p style="margin-bottom: 0;">Wizzy est plus qu'un simple assistant IA - c'est un véritable partenaire commercial automatisé. Développé avec les dernières avancées en matière d'intelligence artificielle, Wizzy travaille sans relâche pour vous apporter des leads qualifiés et personnalisés selon vos critères spécifiques.</p>
+                            </div>
+                            
+                            <p class="mt-4">Et ce n'est que le début de l'aventure ! Chez Wizardlead, nous sommes constamment en train d'innover pour vous apporter toujours plus d'automatisation et d'intelligence dans votre processus de prospection. Nous travaillons activement sur l'automatisation de vos messages de suivi, l'analyse approfondie de vos marchés cibles pour identifier les meilleures opportunités, et bien d'autres fonctionnalités passionnantes à venir.</p>
+                            
+                            <div class="social-links">
+                                <h3>Connectons-nous et partageons nos expériences</h3>
+                                <div class="social-links-container">
+                                    <a href="https://instagram.com/illitch.vardanyan" target="_blank">
+                                        <i class="fab fa-instagram"></i> @illitch.vardanyan
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Wizzy Gallery Section -->
+        <div class="story-section">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">Découvrez l'univers de Wizzy</h2>
+                    <p class="lead">Notre assistant IA est là pour vous aider à chaque étape de votre prospection</p>
+                </div>
+                
+                <div class="wizzy-gallery">
+                    <div class="wizzy-gallery-item">
+                        <img src="{% static 'img/1E257D9C-B143-4CC5-8667-D4998934C7DB.png' %}" alt="Wizzy Interface">
+                    </div>
+                    <div class="wizzy-gallery-item">
+                        <img src="{% static 'img/620E4A9B-A815-4037-8C95-7EC616D40264.png' %}" alt="Wizzy Dashboard">
+                    </div>
+                    <div class="wizzy-gallery-item">
+                        <img src="{% static 'img/80E01775-40AC-4955-A18F-0E05D1E1925E.png' %}" alt="Wizzy Automation">
+                    </div>
+                    <div class="wizzy-gallery-item">
+                        <img src="{% static 'img/A722F89D-F8ED-4A76-903B-84EEF1243416.png' %}" alt="Wizzy Analytics">
+                    </div>
+                    <div class="wizzy-gallery-item">
+                        <img src="{% static 'img/A770E45A-B4CF-4A64-BCB5-C775C8BE80F3.png' %}" alt="Wizzy AI">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">Questions Fréquentes</h2>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="faq-item">
+                            <div class="faq-question">Proposez-vous un remboursement ?</div>
+                            <div class="faq-answer">Oui, nous offrons un remboursement intégral sous 5 jours si vous n'êtes pas entièrement satisfait de Wizzy. Votre satisfaction est notre priorité.</div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">C'est quoi Wizzy ?</div>
+                            <div class="faq-answer">Wizzy est l'intelligence artificielle au cœur de Wizardlead. Elle a été spécialement conçue pour scrapper automatiquement les meilleures leads pour votre entreprise, en se basant sur vos critères de ciblage.</div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Quelle est la différence avec les autres outils ?</div>
+                            <div class="faq-answer">Wizzy se distingue par son approche 100% automatisée et sa simplicité d'utilisation. Contrairement à de nombreux outils complexes qui nécessitent une configuration fastidieuse, Wizzy est conçu pour être intuitif et efficace dès le premier jour.</div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Est-ce légal ?</div>
+                            <div class="faq-answer">Absolument. Wizzy collecte uniquement des données publiques disponibles sur internet, dans le respect des Conditions Générales d'Utilisation des plateformes et des APIs officielles. La transparence et la conformité sont essentielles pour nous.</div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">Quelles sont les prochaines fonctionnalités ?</div>
+                            <div class="faq-answer">Nous travaillons activement sur l'intégration de l'emailing automatisé pour vos suivis, la synchronisation transparente avec vos outils CRM préférés, le scoring prédictif des leads pour identifier les plus chauds, et bien d'autres innovations pour optimiser votre prospection.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Section -->
+        <div class="feedback-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 mx-auto text-center">
+                        <h2 class="section-title">Votre Avis Compte : Aidez-nous à Améliorer Wizzy !</h2>
+                        <div class="wizzy-mascot">
+                            <img src="{% static 'img/CFACE2A5-9CBE-43ED-AD1B-7DFD32231317.png' %}" alt="Wizzy Feedback">
+                        </div>
+                        <p class="lead mb-4">Vos retours sont essentiels pour nous aider à améliorer Wizzy et à créer les fonctionnalités dont vous avez réellement besoin.</p>
+                        <a href="https://forms.gle/8SLqrvKSWZwcAyjU8" target="_blank" class="feedback-btn">
+                            <i class="fas fa-comment"></i> Remplir le formulaire Google
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 mx-auto text-center">
+                <h2 class="mb-4">Prêt à Révolutionner Votre Prospection ?</h2>
+                <div class="wizzy-mascot">
+                    <img src="{% static 'img/wizzyface.png' %}" alt="Wizzy Bot">
+                </div>
+                <p class="lead mb-4">Commencez dès aujourd'hui et rejoignez les entreprises qui ont transformé leur approche commerciale grâce à Wizzy.</p>
+                <a href="/auth/register/" class="btn btn-primary btn-lg" style="display: inline-block; text-decoration: none; cursor: pointer;">Essayer Wizzy Gratuitement</a>
+                <p class="mt-3">Aucune carte de crédit requise - 10 leads offerts</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

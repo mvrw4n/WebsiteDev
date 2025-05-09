@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <ul class="nav nav-tabs mb-4" id="dashboardTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="billing-tab" data-bs-toggle="tab" data-bs-target="#billing" type="button" role="tab" aria-controls="billing" aria-selected="false">Billing</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="dashboardTabsContent">
+        <!-- Overview Tab -->
+        <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Profile Information</h4>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Email:</strong> {{ user.email }}</p>
+                            <p><strong>Member since:</strong> {{ user.date_joined|date:"M d, Y" }}</p>
+                            <p><strong>Account type:</strong> {{ profile.get_role_display }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Leads Quota Status</h4>
+                        </div>
+                        <div class="card-body">
+                            {% if profile.can_access_leads %}
+                                <div class="alert alert-success">
+                                    <h5>Active Subscription</h5>
+                                    <p>
+                                        {% if profile.unlimited_leads %}
+                                            You have unlimited leads access
+                                        {% else %}
+                                            Remaining leads: {{ profile.leads_quota }}
+                                        {% endif %}
+                                    </p>
+                                    {% if profile.trial_expiration %}
+                                        <p>Trial expires: {{ profile.trial_expiration|date:"M d, Y" }}</p>
+                                    {% endif %}
+                                </div>
+                            {% else %}
+                                <div class="alert alert-warning">
+                                    <h5>Limited Access</h5>
+                                    <p>Upgrade your account to access leads.</p>
+                                    <button class="btn btn-primary" onclick="switchToBillingTab()">Upgrade Now</button>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Billing Tab -->
+        <div class="tab-pane fade" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Subscription Plans</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                {% for plan in available_plans %}
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card h-100 {% if subscription.plan.name == plan.name %}border-primary{% endif %}">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ plan.name }}</h5>
+                                                <h6 class="card-subtitle mb-2 text-muted">${{ plan.price }}/{{ plan.interval }}</h6>
+                                                <p class="card-text">
+                                                    <strong>{{ plan.leads_quota }}</strong> leads per {{ plan.interval }}<br>
+                                                    {% for feature_name, feature_desc in plan.features.items %}
+                                                        <i class="bi bi-check-circle-fill text-success"></i> {{ feature_desc }}<br>
+                                                    {% endfor %}
+                                                </p>
+                                                {% if subscription.plan.name == plan.name %}
+                                                    <button class="btn btn-outline-primary" disabled>Current Plan</button>
+                                                {% else %}
+                                                    <button class="btn btn-primary" onclick="subscribeToPlan({{ plan.id }})">Subscribe</button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Current Plan</h4>
+                        </div>
+                        <div class="card-body">
+                            {% if subscription %}
+                                <div class="mb-3">
+                                    <h5>{{ subscription.plan.name }}</h5>
+                                    <p class="text-muted">
+                                        Status: <span class="badge bg-{{ subscription.status|yesno:'success,warning' }}">{{ subscription.status }}</span><br>
+                                        {% if subscription.current_period_end %}
+                                            Current period ends: {{ subscription.current_period_end|date:"M d, Y" }}<br>
+                                        {% endif %}
+                                        Leads used: {{ subscription.current_usage.leads_used }} / 
+                                        {% if profile.unlimited_leads %}
+                                            Unlimited
+                                        {% else %}
+                                            {{ subscription.plan.leads_quota }}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-info">
+                                    You don't have an active subscription.
+                                    <button class="btn btn-primary btn-sm ms-2" onclick="switchToBillingTab()">View Plans</button>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+{% if STRIPE_PUBLIC_KEY %}
+const stripe = Stripe('{{ STRIPE_PUBLIC_KEY }}');
+{% endif %}
+
+function switchToBillingTab() {
+    document.querySelector('#billing-tab').click();
+}
+
+async function subscribeToPlan(planId) {
+    // Implementation for subscription will be added later
+    alert('Subscription functionality will be implemented soon!');
+}
+</script>
+{% endblock %} 

@@ -1,0 +1,1054 @@
+/* Common styles for Wizzy website - Dark Theme */
+
+:root {
+    /* Color Palette - Dark Theme */
+    --primary: #ff6b00;
+    /* Orange accent for CTA buttons */
+    --primary-hover: #2563EB;
+    /* Blue hover for buttons per Sintra style */
+    --primary-light: #ff8534;
+    /* Lighter orange */
+    --secondary: #8b5cf6;
+    /* Purple accent */
+    --accent: #FACC15;
+    /* Yellow accent */
+    --dark: #000000;
+    /* Pure black background */
+    --dark-secondary: #111827;
+    /* Slightly lighter dark for cards */
+    --dark-tertiary: #1f2937;
+    /* Even lighter dark for hover effects */
+    --light: #e5e7eb;
+    /* Light gray for text */
+    --gray: #9ca3af;
+    /* Medium gray for secondary text */
+    --light-gray: #4b5563;
+    /* Darker gray for borders in dark theme */
+    --white: #f9fafb;
+    /* Off-white for important text */
+    --text: #e5e7eb;
+    /* Default text color */
+    --shadow: rgba(0, 0, 0, 0.25);
+    /* Darker shadow for dark theme */
+    --shadow-strong: rgba(0, 0, 0, 0.5);
+    /* Stronger shadow for cards */
+    --gradient-blue: linear-gradient(135deg, #2563EB, #1E40AF);
+    --gradient-purple: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    --gradient-mixed: linear-gradient(135deg, #ff6b00, #2563EB);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--dark);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Max width container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/* Sections common styles */
+section {
+    padding: 5rem 0;
+    position: relative;
+}
+
+/* Footer styles */
+.footer {
+    background-color: var(--dark-secondary);
+    color: var(--text);
+    padding: 4rem 0 2rem;
+    margin-top: 4rem;
+}
+
+.footer-logo img {
+    max-height: 40px;
+    filter: brightness(0) invert(1);
+    margin-bottom: 1.5rem;
+}
+
+.footer-description {
+    font-size: 0.95rem;
+    opacity: 0.8;
+    margin-bottom: 1.5rem;
+}
+
+.footer-links h4 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+    color: var(--white);
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links ul li a {
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    opacity: 0.8;
+    font-size: 0.95rem;
+}
+
+.footer-links ul li a:hover {
+    color: var(--primary);
+    opacity: 1;
+    padding-left: 5px;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    margin-top: 2rem;
+    border-top: 1px solid var(--light-gray);
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.footer-bottom a {
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer-bottom a:hover {
+    color: var(--primary);
+}
+
+/* Trustpilot Reviews Section */
+.trustpilot-section {
+    background-color: var(--dark-tertiary);
+    border-radius: 15px;
+    padding: 3rem 2rem;
+    box-shadow: 0 10px 30px var(--shadow-strong);
+}
+
+.trustpilot-card {
+    background-color: var(--dark-secondary);
+    border-radius: 10px;
+    padding: 2rem;
+    height: 100%;
+    box-shadow: 0 5px 15px var(--shadow);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.trustpilot-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px var(--shadow-strong);
+}
+
+.trustpilot-card:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--gradient-mixed);
+}
+
+.trustpilot-stars {
+    margin-bottom: 1.5rem;
+    color: var(--accent);
+    font-size: 1.2rem;
+}
+
+.trustpilot-content {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    color: var(--white);
+    font-style: italic;
+}
+
+.trustpilot-author {
+    display: flex;
+    align-items: center;
+}
+
+.trustpilot-author-info h5 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--white);
+}
+
+.trustpilot-author-info span {
+    font-size: 0.85rem;
+    color: var(--gray);
+}
+
+.trustpilot-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--white);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background-color: var(--dark-secondary);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    margin-top: 1rem;
+}
+
+.trustpilot-link:hover {
+    background-color: var(--primary);
+    box-shadow: 0 5px 15px rgba(255, 107, 0, 0.3);
+    color: var(--white);
+}
+
+.trustpilot-logo {
+    height: 20px;
+    margin-right: 10px;
+}
+
+/* Social links in footer */
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 1.5rem;
+}
+
+.social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--dark-tertiary);
+    color: var(--white);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px var(--shadow);
+}
+
+.social-links a:hover {
+    background: var(--gradient-blue);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+}
+
+.social-links a i {
+    font-size: 1.2rem;
+}
+
+/* Social profiles section */
+.social-profiles {
+    margin-top: 2rem;
+}
+
+.social-heading {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+    color: var(--white);
+}
+
+.social-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.social-card {
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1.2rem;
+    background-color: var(--dark-tertiary);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: var(--white);
+    border: 1px solid var(--light-gray);
+    flex: 1 1 calc(50% - 0.8rem);
+}
+
+.social-card.linkedin:hover {
+    background-color: #0A66C2;
+    border-color: #0A66C2;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px var(--shadow-strong);
+}
+
+.social-card.twitter:hover {
+    background-color: #1DA1F2;
+    border-color: #1DA1F2;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px var(--shadow-strong);
+}
+
+.social-card.instagram:hover {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+    border-color: #e1306c;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px var(--shadow-strong);
+}
+
+.social-card.facebook:hover {
+    background-color: #1877F2;
+    border-color: #1877F2;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px var(--shadow-strong);
+}
+
+.social-card i {
+    font-size: 1.2rem;
+    margin-right: 0.8rem;
+}
+
+.social-card span {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* Timeline styles for How It Works section */
+.timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    background: var(--gradient-blue);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+    border-radius: 3px;
+}
+
+.timeline-container {
+    padding: 10px 40px;
+    position: relative;
+    background-color: inherit;
+    width: 50%;
+}
+
+.timeline-container.left {
+    left: 0;
+}
+
+.timeline-container.right {
+    left: 50%;
+}
+
+.timeline-container::after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    right: -13px;
+    background-color: var(--dark);
+    border: 4px solid var(--primary);
+    top: 30px;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.timeline-container.left::after {
+    right: -13px;
+}
+
+.timeline-container.right::after {
+    left: -13px;
+}
+
+.timeline-container.left::before {
+    content: " ";
+    height: 0;
+    position: absolute;
+    top: 30px;
+    width: 0;
+    z-index: 1;
+    right: 30px;
+    border: medium solid var(--dark-secondary);
+    border-width: 10px 0 10px 10px;
+    border-color: transparent transparent transparent var(--dark-secondary);
+}
+
+.timeline-container.right::before {
+    content: " ";
+    height: 0;
+    position: absolute;
+    top: 30px;
+    width: 0;
+    z-index: 1;
+    left: 30px;
+    border: medium solid var(--dark-secondary);
+    border-width: 10px 10px 10px 0;
+    border-color: transparent var(--dark-secondary) transparent transparent;
+}
+
+.timeline-content {
+    padding: 20px 30px;
+    background-color: var(--dark-secondary);
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.timeline-content:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px var(--shadow);
+}
+
+.timeline-icon {
+    font-size: 3rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+/* Feature cards for advantages section */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 3rem;
+}
+
+.feature-box {
+    background-color: var(--dark-secondary);
+    border-radius: 15px;
+    padding: 2.5rem 2rem;
+    box-shadow: 0 5px 15px var(--shadow);
+    transition: all 0.3s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px var(--shadow-strong);
+    background-color: var(--dark-tertiary);
+}
+
+.feature-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--gradient-mixed);
+}
+
+.feature-icon-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: var(--dark-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2.5rem;
+    color: var(--primary);
+}
+
+.feature-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--white);
+}
+
+.feature-description {
+    color: var(--gray);
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+/* CTA section redesign */
+.cta-section {
+    background-color: var(--dark-secondary);
+    padding: 5rem 0;
+    margin-top: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/static/img/cta-bg.svg') no-repeat center center;
+    background-size: cover;
+    opacity: 0.05;
+    z-index: 0;
+}
+
+.cta-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.cta-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--white);
+}
+
+.cta-description {
+    font-size: 1.2rem;
+    max-width: 700px;
+    margin: 0 auto 2.5rem;
+    color: var(--gray);
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background-color: var(--primary-hover);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.4);
+}
+
+.cta-btn {
+    display: inline-block;
+    background: var(--primary);
+    color: var(--white);
+    padding: 1rem 3rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    border: 2px solid var(--primary);
+}
+
+.cta-btn:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    color: var(--white);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(37, 99, 235, 0.4);
+}
+
+.cta-note {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--gray);
+}
+
+/* Responsive styles */
+@media (max-width: 991px) {
+    .timeline::after {
+        left: 31px;
+    }
+
+    .timeline-container {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+    }
+
+    .timeline-container.left {
+        left: 0;
+    }
+
+    .timeline-container.right {
+        left: 0;
+    }
+
+    .timeline-container.left::after,
+    .timeline-container.right::after {
+        left: 18px;
+    }
+
+    .timeline-container.left::before,
+    .timeline-container.right::before {
+        left: 60px;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent var(--dark-secondary) transparent transparent;
+    }
+}
+
+@media (max-width: 768px) {
+    section {
+        padding: 3rem 0;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-title {
+        font-size: 2rem;
+    }
+
+    .social-profile-card {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .timeline-content {
+        padding: 15px;
+    }
+}
+
+.section-title:after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 50px;
+    height: 3px;
+    background: var(--gradient-blue);
+}
+
+/* Navigation */
+.navbar {
+    background-color: var(--dark);
+    padding: 15px 0;
+    box-shadow: 0 2px 15px var(--shadow);
+}
+
+.navbar-brand img {
+    height: 105px;
+}
+
+.navbar-toggler {
+    border: none;
+    outline: none;
+    padding: 0;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(248, 250, 252, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.nav-link {
+    color: var(--gray);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin: 0 10px;
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+    color: var(--white);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary);
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
+.navbar .btn {
+    padding: 8px 20px;
+    border-radius: 50px;
+    margin-left: 15px;
+}
+
+/* Footer Styling */
+.footer {
+    background-color: var(--dark-secondary);
+    color: var(--gray);
+    padding: 4rem 0 2rem;
+    margin-top: 3rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.footer::before {
+    content: "";
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    background: var(--gradient-blue);
+    opacity: 0.05;
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.footer::after {
+    content: "";
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+    background: var(--gradient-mixed);
+    opacity: 0.05;
+    border-radius: 50%;
+    z-index: 0;
+}
+
+.footer-logo {
+    margin-bottom: 1.5rem;
+}
+
+.footer-logo img {
+    height: 40px;
+}
+
+.footer-description {
+    color: var(--gray);
+    margin-bottom: 1.5rem;
+    max-width: 300px;
+}
+
+.footer-links h4 {
+    color: var(--white);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+.footer-links h4::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: var(--gradient-blue);
+    border-radius: 3px;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links ul li a {
+    color: var(--gray);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    padding-left: 0;
+    display: inline-block;
+}
+
+.footer-links ul li a:hover {
+    color: var(--white);
+    transform: translateX(5px);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+    margin-top: 3rem;
+    text-align: center;
+    color: var(--gray);
+    font-size: 0.9rem;
+}
+
+.footer-bottom a {
+    color: var(--gray);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.footer-bottom a:hover {
+    color: var(--primary);
+}
+
+/* Social Profiles Section */
+.social-heading {
+    color: var(--white);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+.social-heading::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: var(--gradient-blue);
+    border-radius: 3px;
+}
+
+.social-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 1rem;
+}
+
+.social-card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--dark-tertiary);
+    border-radius: 8px;
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px var(--shadow);
+    background-color: var(--primary);
+}
+
+.social-card i {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-right: 10px;
+    font-size: 1rem;
+}
+
+.social-card span {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Social network specific colors */
+.social-card.linkedin i {
+    background-color: #0077B5;
+}
+
+.social-card.twitter i {
+    background-color: #1DA1F2;
+}
+
+.social-card.instagram i {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+}
+
+.social-card.facebook i {
+    background-color: #4267B2;
+}
+
+/* Trustpilot Section */
+.trustpilot-section {
+    background-color: var(--dark-tertiary);
+    border-radius: 15px;
+    padding: 3rem 2rem;
+    margin-top: 3rem;
+    position: relative;
+}
+
+.trustpilot-heading {
+    color: var(--white);
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+}
+
+.trustpilot-logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.trustpilot-logo-svg {
+    height: 24px;
+}
+
+.trustpilot-verified {
+    color: var(--gray);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.trustpilot-cards {
+    margin-bottom: 2rem;
+}
+
+.trustpilot-card {
+    background-color: var(--dark-secondary);
+    border-radius: 12px;
+    padding: 2rem;
+    height: 100%;
+    box-shadow: 0 5px 15px var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.trustpilot-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px var(--shadow-strong);
+}
+
+.trustpilot-stars {
+    color: #00B67A;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.trustpilot-content {
+    color: var(--light-gray);
+    font-style: italic;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+.trustpilot-author {
+    display: flex;
+    align-items: center;
+}
+
+.trustpilot-author-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--dark-tertiary);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-right: 1rem;
+}
+
+.trustpilot-author-info h5 {
+    color: var(--white);
+    font-weight: 600;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.trustpilot-author-info span {
+    color: var(--gray);
+    font-size: 0.85rem;
+}
+
+.trustpilot-view-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--primary);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 0.7rem 1.5rem;
+    border-radius: 50px;
+    border: 1px solid var(--primary);
+}
+
+.trustpilot-view-link:hover {
+    background-color: var(--primary);
+    color: var(--white);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 15px rgba(255, 107, 0, 0.2);
+}
+
+.trustpilot-view-link i {
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.trustpilot-view-link:hover i {
+    transform: translateX(5px);
+}
+
+/* Main content area */
+main {
+    min-height: 80vh;
+    padding: 2rem 0;
+}
+
+/* Card styling */
+.card {
+    background-color: var(--dark-secondary);
+    border: 1px solid var(--dark-tertiary);
+    border-radius: 12px;
+    box-shadow: 0 5px 15px var(--shadow);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px var(--shadow-strong);
+}
+
+.card-title {
+    color: var(--white);
+    font-weight: 600;
+}
+
+.card-text {
+    color: var(--gray);
+}
+
+.card-header {
+    background-color: var(--dark-tertiary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--white);
+    font-weight: 600;
+}
+
+.card-footer {
+    background-color: var(--dark-tertiary);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.login-btn:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 107, 0, 0.3);
+}

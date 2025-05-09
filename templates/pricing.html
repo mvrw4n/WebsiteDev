@@ -1,0 +1,460 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Wizzy - Tarifs et Plans{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<style>
+    .pricing-section {
+        padding: 6rem 0;
+        background-color: var(--dark);
+    }
+
+    .pricing-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .pricing-card {
+        background-color: var(--dark-secondary);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 5px 20px var(--shadow);
+    }
+
+    .pricing-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px var(--shadow-strong);
+    }
+
+    .pricing-card.featured {
+        border: 2px solid var(--primary);
+        transform: scale(1.05);
+    }
+
+    .pricing-card.featured:hover {
+        transform: scale(1.05) translateY(-10px);
+    }
+
+    .pricing-header-card {
+        background-color: var(--dark-tertiary);
+        padding: 2rem;
+        text-align: center;
+        border-bottom: 1px solid var(--light-gray);
+    }
+
+    .pricing-content {
+        padding: 2rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .pricing-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--white);
+    }
+
+    .pricing-subtitle {
+        font-size: 1rem;
+        color: var(--gray);
+        margin-bottom: 1.5rem;
+    }
+
+    .pricing-price {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: var(--primary);
+    }
+
+    .pricing-price .period {
+        font-size: 1rem;
+        font-weight: normal;
+        color: var(--gray);
+    }
+
+    .pricing-features {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 2rem 0;
+        flex-grow: 1;
+    }
+
+    .pricing-features li {
+        padding: 0.75rem 0;
+        border-bottom: 1px dashed var(--light-gray);
+        display: flex;
+        align-items: center;
+        color: var(--light);
+    }
+
+    .pricing-features li:last-child {
+        border-bottom: none;
+    }
+
+    .feature-icon {
+        color: var(--primary);
+        margin-right: 0.75rem;
+    }
+
+    .pricing-cta {
+        display: block;
+        padding: 1rem;
+        text-align: center;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .btn-free {
+        background-color: var(--dark-tertiary);
+        color: var(--light);
+        border: 2px solid var(--dark-tertiary);
+    }
+
+    .btn-free:hover {
+        background-color: transparent;
+        color: var(--primary);
+        border-color: var(--primary);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2);
+        text-decoration: none;
+    }
+
+    .btn-premium {
+        background-color: var(--primary);
+        color: white;
+        border: 2px solid var(--primary);
+    }
+
+    .btn-premium:hover {
+        background-color: var(--primary-dark);
+        border-color: var(--primary-dark);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(248, 144, 23, 0.3);
+        text-decoration: none;
+        color: white;
+    }
+
+    .popular-badge {
+        background-color: var(--primary);
+        color: white;
+        font-size: 0.8rem;
+        font-weight: 600;
+        padding: 0.3rem 1rem;
+        border-radius: 30px;
+        position: absolute;
+        top: -10px;
+        right: 20px;
+    }
+
+    /* Style des accordions */
+    .accordion-item {
+        background-color: var(--dark-secondary);
+        border: none;
+        margin-bottom: 1rem;
+    }
+
+    .accordion-button {
+        background-color: var(--dark-tertiary);
+        color: var(--white);
+        font-weight: 600;
+        box-shadow: none;
+    }
+
+    .accordion-button:not(.collapsed) {
+        background-color: var(--primary);
+        color: white;
+    }
+
+    .accordion-button:focus {
+        box-shadow: none;
+        border-color: var(--primary);
+    }
+
+    .accordion-body {
+        background-color: var(--dark-secondary);
+        color: var(--light);
+    }
+
+    .accordion-button::after {
+        filter: invert(1);
+    }
+
+    .faq-section {
+        background-color: var(--dark-tertiary);
+        padding: 2rem;
+        border-radius: 12px;
+        color: var(--white);
+    }
+    
+    /* Style pour la section fonctionnalités à venir */
+    .coming-soon-section {
+        background-color: var(--dark-secondary);
+        border: 2px dashed var(--primary);
+        border-radius: 12px;
+        padding: 2rem;
+        margin-top: 3rem;
+        margin-bottom: 3rem;
+        text-align: center;
+        position: relative;
+    }
+    
+    .coming-soon-badge {
+        position: absolute;
+        top: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: var(--primary);
+        color: white;
+        padding: 0.5rem 1.5rem;
+        border-radius: 30px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    
+    .coming-soon-features {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        margin-top: 1.5rem;
+    }
+    
+    .coming-soon-feature {
+        background-color: var(--dark);
+        border-radius: 10px;
+        padding: 1.5rem;
+        text-align: center;
+        width: 250px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px var(--shadow);
+    }
+    
+    .coming-soon-feature:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px var(--shadow-strong);
+    }
+    
+    .coming-soon-icon {
+        font-size: 2rem;
+        color: var(--primary);
+        margin-bottom: 1rem;
+    }
+
+    .cta-section {
+        background-color: var(--dark-tertiary);
+        padding: 5rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(37, 99, 235, 0) 100%);
+        z-index: 1;
+    }
+
+    .cta-section .container {
+        position: relative;
+        z-index: 2;
+    }
+
+    .btn-primary {
+        display: inline-block;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 8px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--primary-hover);
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="pricing-section">
+    <div class="container">
+        <div class="pricing-header">
+            <h1 class="section-title">Choisissez l'Offre Wizzy Adaptée à Vos Besoins</h1>
+            <p class="lead text-center">Des solutions flexibles pour tous types d'entreprises, de l'entrepreneur individuel à la grande organisation.</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="pricing-card">
+                    <div class="pricing-header-card">
+                        <h3 class="pricing-title">Offre Gratuite</h3>
+                        <p class="pricing-subtitle">Idéale pour Découvrir</p>
+                        <div class="pricing-price">
+                            <span>Gratuit</span>
+                            <span class="period"></span>
+                        </div>
+                    </div>
+                    <div class="pricing-content">
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check feature-icon"></i> 10 leads ultra-qualifiés par mois</li>
+                            <li><i class="fas fa-check feature-icon"></i> Recherche simple par secteur d'activité</li>
+                            <li><i class="fas fa-check feature-icon"></i> Export CSV basique</li>
+                            <li><i class="fas fa-check feature-icon"></i> Accès au support communautaire</li>
+                            <li><i class="fas fa-check feature-icon"></i> Parfait pour tester Wizzy sans engagement</li>
+                        </ul>
+                        <a href="/auth/register/" class="pricing-cta btn-free">Créer un Compte Gratuit</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="pricing-card featured">
+                    <div class="popular-badge">Populaire</div>
+                    <div class="pricing-header-card">
+                        <h3 class="pricing-title">Offre Classique</h3>
+                        <p class="pricing-subtitle">Développez Votre Croissance</p>
+                        <div class="pricing-price">
+                            <span>75€</span>
+                            <span class="period">/ mois</span>
+                        </div>
+                    </div>
+                    <div class="pricing-content">
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check feature-icon"></i> 3 000 leads ultra-qualifiés par mois</li>
+                            <li><i class="fas fa-check feature-icon"></i> Recherche avancée multi-critères</li>
+                            <li><i class="fas fa-check feature-icon"></i> Export CSV avancé avec données enrichies</li>
+                            <li><i class="fas fa-check feature-icon"></i> Support prioritaire par email</li>
+                            <li><i class="fas fa-check feature-icon"></i> Accès prioritaire aux prochaines automatisations</li>
+                        </ul>
+                        <a href="https://buy.stripe.com/6oE17l4Md3P0eU8eUV" class="pricing-cta btn-premium">Choisir l'Offre Classique</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Nouvelle section pour les fonctionnalités à venir -->
+        <div class="row mt-4">
+            <div class="col-lg-10 mx-auto">
+                <div class="coming-soon-section">
+                    <div class="coming-soon-badge">Bientôt Disponible</div>
+                    <h3 class="text-white mb-3">Fonctionnalités à Venir</h3>
+                    <p class="text-light mb-4">Restez connecté ! Ces fonctionnalités innovantes seront disponibles prochainement, avec un accès prioritaire pour les utilisateurs premium.</p>
+                    
+                    <div class="coming-soon-features">
+                        <div class="coming-soon-feature">
+                            <div class="coming-soon-icon">
+                                <i class="fas fa-sync-alt"></i>
+                            </div>
+                            <h4 class="text-white">Synchronisation CRM</h4>
+                            <p class="text-light">Intégration fluide avec vos outils CRM préférés pour une gestion optimisée de vos leads.</p>
+                        </div>
+                        
+                        <div class="coming-soon-feature">
+                            <div class="coming-soon-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <h4 class="text-white">Emails Automatisés</h4>
+                            <p class="text-light">Créez et programmez des séquences d'emails personnalisés pour vos leads directement depuis Wizzy.</p>
+                        </div>
+                        
+                        <div class="coming-soon-feature">
+                            <div class="coming-soon-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h4 class="text-white">Analytics Avancés</h4>
+                            <p class="text-light">Tableaux de bord détaillés pour suivre et optimiser vos performances de prospection.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-lg-8 mx-auto text-center">
+                <div class="faq-section">
+                    <h3 class="mb-4">Questions Fréquentes</h3>
+                    
+                    <div class="accordion" id="pricingAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    Puis-je changer de plan à tout moment ?
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#pricingAccordion">
+                                <div class="accordion-body">
+                                    Oui, vous pouvez facilement passer d'un plan à l'autre à tout moment depuis votre tableau de bord. Le changement prend effet immédiatement.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Proposez-vous un remboursement ?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#pricingAccordion">
+                                <div class="accordion-body">
+                                    Oui, nous offrons un remboursement intégral sous 5 jours si vous n'êtes pas entièrement satisfait de Wizzy. Votre satisfaction est notre priorité.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Existe-t-il des engagements de durée ?
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#pricingAccordion">
+                                <div class="accordion-body">
+                                    Non, nos offres sont sans engagement. Vous pouvez annuler à tout moment et ne serez facturé que pour la période utilisée.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 mx-auto text-center">
+                <h2 class="mb-4">Prêt à Révolutionner Votre Prospection ?</h2>
+                <p class="lead mb-4">Commencez dès aujourd'hui et rejoignez les entreprises qui ont transformé leur approche commerciale grâce à Wizzy.</p>
+                <a href="/auth/register/" class="btn btn-primary btn-lg" style="display: inline-block; text-decoration: none; cursor: pointer;">Essayer Wizzy Gratuitement</a>
+                <p class="mt-3">Aucune carte de crédit requise - 10 leads offerts</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

@@ -1,0 +1,60 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+    #header {
+        height: auto;
+        padding: 10px 0;
+    }
+    
+    /* Style for the custom header buttons */
+    .admin-header-buttons {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+    }
+    
+    .admin-header-button {
+        display: inline-block;
+        margin-right: 15px;
+        padding: 8px 15px;
+        background-color: #417690;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+    
+    .admin-header-button:hover {
+        background-color: #2b5172;
+        color: white;
+    }
+    
+    /* Add a special highlight for the scraping button */
+    .admin-header-button.scraping {
+        background-color: #28a745;
+    }
+    
+    .admin-header-button.scraping:hover {
+        background-color: #218838;
+    }
+</style>
+{% endblock %}
+
+{% block usertools %}
+{{ block.super }}
+<div class="admin-header-buttons">
+    <a href="{% url 'scraping:admin_control_panel' %}" class="admin-header-button scraping">
+        <i class="fas fa-robot"></i> Scraping Control Panel
+    </a>
+    
+    {% if user.is_superuser %}
+    <a href="{% url 'admin:index' %}" class="admin-header-button">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+    </a>
+    {% endif %}
+</div>
+{% endblock %} 

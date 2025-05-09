@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Wizzy{% endblock %}</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Common CSS -->
+    <link rel="stylesheet" href="/static/css/common.css">
+    <style>
+        .apple-emoji {
+            font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+            font-size: 1.2em;
+        }
+    </style>
+    {% load static %}
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="/static/img/logo-removebg-preview.png" alt="Wizzy Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pricing/">Tarifs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about/">À propos</a>
+                    </li>
+                    <li class="nav-item" id="dashboardLink" style="display: none;">
+                        <a class="nav-link" href="/dashboard/">Dashboard</a>
+                    </li>
+                    <li class="nav-item" id="loginLink">
+                        <a class="nav-link" href="/auth/login/">Connexion</a>
+                    </li>
+                    <li class="nav-item" id="registerLink">
+                        <a class="nav-link" href="/auth/register/">Inscription</a>
+                    </li>
+                    <li class="nav-item" id="logoutLink" style="display: none;">
+                        <a class="nav-link" href="#" onclick="handleLogout(event)">Déconnexion</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <div class="navbar-brand">
+                        <img src="/static/img/logo-removebg-preview.png" alt="Wizzy Logo">
+                    </div>
+                    <div class="footer-description">
+                        Wizzy automatise votre prospection et vous aide à générer jusqu'à 100 leads ultra-qualifiés par jour.
+                    </div>
+                    <div class="social-profiles">
+                        <h4 class="social-heading">Suivez-nous</h4>
+                        <div class="social-cards">
+                            <a href="https://www.linkedin.com/company/wizardlead" target="_blank" class="social-card linkedin">
+                                <i class="fab fa-linkedin-in"></i>
+                                <span>LinkedIn</span>
+                            </a>
+                            <a href="https://twitter.com/wizardlead" target="_blank" class="social-card twitter">
+                                <i class="fab fa-twitter"></i>
+                                <span>Twitter</span>
+                            </a>
+                            <a href="https://www.instagram.com/wizard_lead" target="_blank" class="social-card instagram">
+                                <i class="fab fa-instagram"></i>
+                                <span>Instagram</span>
+                            </a>
+                            <a href="https://www.facebook.com/wizardlead" target="_blank" class="social-card facebook">
+                                <i class="fab fa-facebook-f"></i>
+                                <span>Facebook</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <div class="footer-links">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="/">Accueil</a></li>
+                            <li><a href="/pricing/">Tarifs</a></li>
+                            <li><a href="/about/">À propos</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <div class="footer-links">
+                        <h4>Utilisateur</h4>
+                        <ul>
+                            <li><a href="/auth/login/">Connexion</a></li>
+                            <li><a href="/auth/register/">Inscription</a></li>
+                            <li><a href="/dashboard/">Dashboard</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="footer-links">
+                        <h4>Contact & Support</h4>
+                        <ul>
+                            <li><a href="mailto:support@wizzy.ai">support@wizzy.ai</a></li>
+                            <li><a href="https://www.instagram.com/wizard_lead" target="_blank">@wizard_lead</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add Trustpilot reviews section -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="trustpilot-section">
+                        <div class="text-center mb-5">
+                            <h3 class="trustpilot-heading">Ce Que Nos Clients Disent</h3>
+                            <div class="trustpilot-logo-container">
+                                <svg class="trustpilot-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 126.1 31">
+                                    <path d="M35.6 12H30v9.2h5.6V12zm-2.8 7.6c-1.2 0-2.1-1-2.1-3s.9-3 2.1-3 2.1 1 2.1 3-.9 3-2.1 3zm13.1-3.4v5h-1.3l-.2-.7c-.5.6-1.2.9-2.1.9-1.6 0-2.4-.9-2.4-2.1 0-1.3.9-2 2.6-2h1.7c0-.8-.5-1.3-1.6-1.3-.7 0-1.5.3-2 .7l-.6-1.1c.8-.6 1.9-.9 3-.9 1.9-.1 2.9.9 2.9 2.5zm-1.7 1.8H43c-.8 0-1.2.3-1.2.8 0 .5.3.8 1 .8s1.2-.3 1.5-.8v-.8zm3.9 3.2V16h1.4l.2.8c.4-.6 1-.9 1.8-.9l-.3 1.4h-.4c-.7 0-1.2.3-1.4 1v3.6h-1.3zm10.2-3v3h-1.3l-.1-.6c-.4.5-1.1.8-1.9.8-1.7 0-2.8-1.4-2.8-3.2 0-1.9 1.2-3.2 2.9-3.2.7 0 1.3.2 1.7.7l.1-.6h1.4v3.1zm-1.3 0c-.3-.5-.8-.8-1.4-.8-.8 0-1.5.6-1.5 1.8s.6 1.8 1.5 1.8c.6 0 1.1-.3 1.4-.7v-2.1zm9.2-3.1l-2.4 6.1h-1.4l-2.4-6.1h1.5l1.6 4.6 1.7-4.6h1.4zm3.2 6.1h-1.3V12h1.3v9.2zm5.1.2c-1.9 0-3.1-1.3-3.1-3.2s1.2-3.2 3.1-3.2 3.1 1.3 3.1 3.2-1.2 3.2-3.1 3.2zm0-1.3c1 0 1.7-.8 1.7-1.9s-.7-1.9-1.7-1.9-1.7.8-1.7 1.9.7 1.9 1.7 1.9zm10.8-5v6.1h-1.3l-.1-.8c-.4.6-1.1.9-1.9.9-1.7 0-2.9-1.3-2.9-3.2s1.2-3.2 2.9-3.2c.8 0 1.5.3 1.9.9l.1-.7h1.3zm-1.4 3.1c0-1.1-.7-1.9-1.7-1.9s-1.7.7-1.7 1.9c0 1.1.7 1.9 1.7 1.9s1.7-.8 1.7-1.9zm3.6 3V16h1.4l.1.8c.4-.5 1.1-.9 2-.9 1.3 0 2 .8 2 2.4v3h-1.3v-2.8c0-.9-.3-1.3-1.1-1.3-.7 0-1.2.4-1.4.9v3.2h-1.7zm12.5-5.2h-1.8v2.8c0 .5.3.7.7.7.3 0 .7-.1.9-.3l.5 1c-.4.3-1 .6-1.8.6-1.3 0-1.8-.7-1.8-1.9v-2.8H93v-1h.7v-1.5h1.3V15h1.8v1h.3zm1.9 5.2V12h1.3v9.2h-1.3zm7.4.2c-1.9 0-3.1-1.3-3.1-3.2s1.2-3.2 3.1-3.2 3.1 1.3 3.1 3.2-1.2 3.2-3.1 3.2zm0-1.3c1 0 1.7-.8 1.7-1.9s-.7-1.9-1.7-1.9-1.7.8-1.7 1.9.7 1.9 1.7 1.9zm10.8-5h-1.8v2.8c0 .5.3.7.7.7.3 0 .7-.1.9-.3l.5 1c-.4.3-1 .6-1.8.6-1.3 0-1.8-.7-1.8-1.9v-2.8h-.7v-1h.7v-1.5h1.3V15h1.8l.2 1z" fill="#00B67A"></path>
+                                    <path d="M26.9 12L19.9.6c-.4-.6-1-.6-1.4 0l-7 11.4L0 15c-.7.2-.9.9-.5 1.5l8.1 8.3-1.7 11.5c-.1.7.5 1.2 1.1.9l10.9-5.3 10.9 5.3c.6.3 1.2-.2 1.1-.9l-1.7-11.5 8.1-8.3c.5-.5.3-1.3-.4-1.5" fill="#00B67A"></path>
+                                    <path d="M19.2 19.6L26.9 12l-11.5-2.9-3.9 6.4 7.7 4.1z" fill="#005128"></path>
+                                </svg>
+                                <span class="trustpilot-verified">Avis vérifiés</span>
+                            </div>
+                        </div>
+                        <div class="row trustpilot-cards">
+                            <div class="col-md-4 mb-4">
+                                <div class="trustpilot-card">
+                                    <div class="trustpilot-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div class="trustpilot-content">
+                                        "Wizzy a complètement transformé ma façon de gérer ma présence en ligne. Leurs outils sont intuitifs et puissants. Je recommande vivement!"
+                                    </div>
+                                    <div class="trustpilot-author">
+                                        <div class="trustpilot-author-avatar">
+                                            <span>SJ</span>
+                                        </div>
+                                        <div class="trustpilot-author-info">
+                                            <h5>Sarah Johnson</h5>
+                                            <span>Digital Marketer</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="trustpilot-card">
+                                    <div class="trustpilot-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <div class="trustpilot-content">
+                                        "L'équipe de Wizzy fournit un support exceptionnel. Ils répondent toujours rapidement et se soucient vraiment du succès de leurs clients."
+                                    </div>
+                                    <div class="trustpilot-author">
+                                        <div class="trustpilot-author-avatar">
+                                            <span>MC</span>
+                                        </div>
+                                        <div class="trustpilot-author-info">
+                                            <h5>Michael Chen</h5>
+                                            <span>E-commerce Owner</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="trustpilot-card">
+                                    <div class="trustpilot-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <div class="trustpilot-content">
+                                        "La plateforme de Wizzy est incroyablement conviviale et possède toutes les fonctionnalités dont nous avions besoin. Leur processus d'intégration a été fluide et leurs prix sont transparents."
+                                    </div>
+                                    <div class="trustpilot-author">
+                                        <div class="trustpilot-author-avatar">
+                                            <span>AR</span>
+                                        </div>
+                                        <div class="trustpilot-author-info">
+                                            <h5>Alex Rodriguez</h5>
+                                            <span>Small Business Owner</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <a href="#" class="trustpilot-view-link">
+                                <span>Voir tous nos avis sur Trustpilot</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; {% now "Y" %} Wizzy - Tous droits réservés | <a href="/auth/cgu/">Conditions d'utilisation</a> | <a href="#">Politique de confidentialité</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Authentication Manager -->
+    <script src="/static/js/common/auth.js"></script>
+    
+    <!-- CSRF Token for JavaScript use -->
+    {% csrf_token %}
+    
+    <!-- Make JWT tokens available to JavaScript if user is authenticated -->
+    {% if user.is_authenticated %}
+    <script id="auth_tokens" type="application/json">
+        {% if request.auth_token %}
+        {"access": "{{ request.auth_token.access }}", "refresh": "{{ request.auth_token.refresh }}"}
+        {% else %}
+        {"access": "", "refresh": ""}
+        {% endif %}
+    </script>
+    {% endif %}
+    
+    <!-- Logout function -->
+    <script>
+        function handleLogout(event) {
+            event.preventDefault();
+            if (typeof AuthManager !== 'undefined') {
+                AuthManager.logout();
+            } else {
+                window.location.href = '/auth/logout/';
+            }
+        }
+        
+        // Update navigation based on authentication status
+        document.addEventListener('DOMContentLoaded', () => {
+            const isAuthenticated = typeof AuthManager !== 'undefined' ? 
+                                     AuthManager.isAuthenticated() : 
+                                     {% if user.is_authenticated %}true{% else %}false{% endif %};
+            
+            if (isAuthenticated) {
+                document.getElementById('dashboardLink').style.display = 'block';
+                document.getElementById('logoutLink').style.display = 'block';
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('registerLink').style.display = 'none';
+            }
+        });
+    </script>
+    
+    <!-- Extra JavaScript -->
+    {% block extra_js %}{% endblock %}
+</body>
+</html> 

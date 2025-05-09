@@ -1,0 +1,11 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls %}
+
+{% block submit_buttons_bottom %}
+    {{ block.super }}
+    {% if show_start_scrape_button %}
+    <div class="submit-row">
+        <input type="submit" value="Start Manual Scraping" name="_start_scrape" class="default" style="background-color: #28a745; border-color: #28a745;">
+    </div>
+    {% endif %}
+{% endblock %} 

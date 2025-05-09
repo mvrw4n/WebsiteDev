@@ -1,0 +1,288 @@
+/* Color variables */
+:root {
+    /* Primary colors */
+    --primary: #007bff;
+    --primary-dark: #0056b3;
+    --primary-light: #3395ff;
+
+    /* Secondary colors */
+    --secondary: #6c757d;
+    --secondary-dark: #545b62;
+    --secondary-light: #868e96;
+
+    /* Success colors */
+    --success: #28a745;
+    --success-dark: #218838;
+    --success-light: #34ce57;
+
+    /* Danger colors */
+    --danger: #dc3545;
+    --danger-dark: #c82333;
+    --danger-light: #e4606d;
+
+    /* Warning colors */
+    --warning: #ffc107;
+    --warning-dark: #e0a800;
+    --warning-light: #ffce3a;
+
+    /* Info colors */
+    --info: #17a2b8;
+    --info-dark: #138496;
+    --info-light: #1fcfd8;
+
+    /* Neutral colors */
+    --light: #f8f9fa;
+    --light-dark: #e2e6ea;
+    --light-light: #fafbfc;
+
+    --dark: #343a40;
+    --dark-dark: #212529;
+    --dark-light: #495057;
+
+    /* Text colors */
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --text-muted: #adb5bd;
+
+    /* Background colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-dark: #343a40;
+
+    /* Border colors */
+    --border-color: #dee2e6;
+    --border-color-dark: #ced4da;
+    --border-color-light: #e9ecef;
+}
+
+/* Text color utilities */
+.text-primary {
+    color: var(--primary) !important;
+}
+
+.text-secondary {
+    color: var(--secondary) !important;
+}
+
+.text-success {
+    color: var(--success) !important;
+}
+
+.text-danger {
+    color: var(--danger) !important;
+}
+
+.text-warning {
+    color: var(--warning) !important;
+}
+
+.text-info {
+    color: var(--info) !important;
+}
+
+.text-light {
+    color: var(--light) !important;
+}
+
+.text-dark {
+    color: var(--dark) !important;
+}
+
+.text-muted {
+    color: var(--text-muted) !important;
+}
+
+/* Background color utilities */
+.bg-primary {
+    background-color: var(--primary) !important;
+}
+
+.bg-secondary {
+    background-color: var(--secondary) !important;
+}
+
+.bg-success {
+    background-color: var(--success) !important;
+}
+
+.bg-danger {
+    background-color: var(--danger) !important;
+}
+
+.bg-warning {
+    background-color: var(--warning) !important;
+}
+
+.bg-info {
+    background-color: var(--info) !important;
+}
+
+.bg-light {
+    background-color: var(--light) !important;
+}
+
+.bg-dark {
+    background-color: var(--dark) !important;
+}
+
+/* Border color utilities */
+.border-primary {
+    border-color: var(--primary) !important;
+}
+
+.border-secondary {
+    border-color: var(--secondary) !important;
+}
+
+.border-success {
+    border-color: var(--success) !important;
+}
+
+.border-danger {
+    border-color: var(--danger) !important;
+}
+
+.border-warning {
+    border-color: var(--warning) !important;
+}
+
+.border-info {
+    border-color: var(--info) !important;
+}
+
+.border-light {
+    border-color: var(--light) !important;
+}
+
+.border-dark {
+    border-color: var(--dark) !important;
+}
+
+/* Hover color utilities */
+.hover-primary:hover {
+    color: var(--primary) !important;
+}
+
+.hover-secondary:hover {
+    color: var(--secondary) !important;
+}
+
+.hover-success:hover {
+    color: var(--success) !important;
+}
+
+.hover-danger:hover {
+    color: var(--danger) !important;
+}
+
+.hover-warning:hover {
+    color: var(--warning) !important;
+}
+
+.hover-info:hover {
+    color: var(--info) !important;
+}
+
+.hover-light:hover {
+    color: var(--light) !important;
+}
+
+.hover-dark:hover {
+    color: var(--dark) !important;
+}
+
+/* Background hover utilities */
+.hover-bg-primary:hover {
+    background-color: var(--primary) !important;
+}
+
+.hover-bg-secondary:hover {
+    background-color: var(--secondary) !important;
+}
+
+.hover-bg-success:hover {
+    background-color: var(--success) !important;
+}
+
+.hover-bg-danger:hover {
+    background-color: var(--danger) !important;
+}
+
+.hover-bg-warning:hover {
+    background-color: var(--warning) !important;
+}
+
+.hover-bg-info:hover {
+    background-color: var(--info) !important;
+}
+
+.hover-bg-light:hover {
+    background-color: var(--light) !important;
+}
+
+.hover-bg-dark:hover {
+    background-color: var(--dark) !important;
+}
+
+/* Opacity utilities */
+.opacity-0 {
+    opacity: 0 !important;
+}
+
+.opacity-25 {
+    opacity: 0.25 !important;
+}
+
+.opacity-50 {
+    opacity: 0.5 !important;
+}
+
+.opacity-75 {
+    opacity: 0.75 !important;
+}
+
+.opacity-100 {
+    opacity: 1 !important;
+}
+
+/* Text opacity utilities */
+.text-opacity-0 {
+    color: rgba(0, 0, 0, 0) !important;
+}
+
+.text-opacity-25 {
+    color: rgba(0, 0, 0, 0.25) !important;
+}
+
+.text-opacity-50 {
+    color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.text-opacity-75 {
+    color: rgba(0, 0, 0, 0.75) !important;
+}
+
+.text-opacity-100 {
+    color: rgba(0, 0, 0, 1) !important;
+}
+
+/* Background opacity utilities */
+.bg-opacity-0 {
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
+.bg-opacity-25 {
+    background-color: rgba(0, 0, 0, 0.25) !important;
+}
+
+.bg-opacity-50 {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.bg-opacity-75 {
+    background-color: rgba(0, 0, 0, 0.75) !important;
+}
+
+.bg-opacity-100 {
+    background-color: rgba(0, 0, 0, 1) !important;
+}
